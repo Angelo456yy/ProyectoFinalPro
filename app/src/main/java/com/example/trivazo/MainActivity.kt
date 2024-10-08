@@ -1,10 +1,10 @@
 package com.example.trivazo
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         // Acción al presionar el botón
         button.setOnClickListener {
             Toast.makeText(this, "¡Botón presionado!", Toast.LENGTH_SHORT).show()
-            textView.text = "¡Hola niños, bienvenidos a mi app!"
+            textView.text = "¡Hola Viajeros, nosotros de apoyamos :)!"
         }
     }
 }

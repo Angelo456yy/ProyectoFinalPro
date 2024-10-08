@@ -7,9 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Texto centrado y estilizado -->
-
-    <!-- Botón para hacer algo -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -18,7 +15,7 @@
         android:fontFamily="sans-serif-light"
         android:padding="17px"
         android:text="¡Trivazo!"
-        android:textColor="@color/colorAccent"
+        android:textColor="@android:color/holo_blue_light"
         android:textSize="80sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -30,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="248dp"
-        android:text="Travazo Confia"
+        android:text="Travazo Confía"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
