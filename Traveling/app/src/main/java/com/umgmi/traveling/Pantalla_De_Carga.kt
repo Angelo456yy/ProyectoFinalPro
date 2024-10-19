@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper // Importa Looper
+import android.os.Looper
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -20,19 +20,19 @@ class Pantalla_De_Carga : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_pantalla_de_carga)
 
-        // Inicializar el ImageView
+
         val imageView = findViewById<ImageView>(R.id.gifImageView)
 
-        // Cargar la imagen usando Glide
+
         Glide.with(this)
-            .load(R.drawable.cargas) // Asegúrate de que el nombre de la imagen sea correcto
+            .load(R.drawable.cargas)
             .into(imageView)
 
-        // Manejar el retraso antes de iniciar la actividad principal
-        val tiempo = 3000L // Tiempo de espera (3 segundos)
+
+        val tiempo = 7000L
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, MainActivity::class.java)) // Iniciar la actividad principal
-            finish() // Finaliza esta actividad
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }, tiempo)
     }
 }
