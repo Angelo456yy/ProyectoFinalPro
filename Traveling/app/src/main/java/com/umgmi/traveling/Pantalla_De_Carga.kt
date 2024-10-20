@@ -20,14 +20,12 @@ class Pantalla_De_Carga : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_pantalla_de_carga)
 
-
         val imageView = findViewById<ImageView>(R.id.gifImageView)
 
 
         Glide.with(this)
             .load(R.drawable.cargas)
             .into(imageView)
-
 
         val tiempo = 7000L
         Handler(Looper.getMainLooper()).postDelayed({

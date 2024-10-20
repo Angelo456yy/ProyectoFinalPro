@@ -31,26 +31,29 @@
             android:id="@+id/editTextNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Nombre"
             android:layout_marginTop="20dp"
+            android:hint="@string/Nombre"
+            android:minHeight="48dp"
             android:padding="10dp" />
 
         <EditText
             android:id="@+id/editTextCorreo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Correo"
             android:layout_marginTop="20dp"
+            android:hint="@string/Correo"
+            android:minHeight="48dp"
             android:padding="10dp" />
 
         <EditText
             android:id="@+id/editTextContraseña"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Contraseña"
             android:layout_marginTop="20dp"
-            android:padding="10dp"
-            android:inputType="textPassword" />
+            android:hint="@string/Contraseña"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:padding="10dp" />
 
         <Button
             android:id="@+id/buttonRegistrar"
@@ -61,13 +64,14 @@
 
         <TextView
             android:id="@+id/textViewCrearCuenta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Cuentaex"
-        android:layout_marginTop="20dp"
-        android:clickable="true"
-        android:textColor="@android:color/holo_blue_dark"
-        android:layout_gravity="center" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:minHeight="48dp"
+            android:text="@string/Cuentaex"
+            android:textColor="@android:color/holo_blue_dark" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

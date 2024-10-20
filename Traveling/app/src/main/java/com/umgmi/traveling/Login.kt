@@ -17,22 +17,20 @@ class Login : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
 
-        // Ajustar los insets de las ventanas
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Referencia al TextView "Crear Cuenta"
         val textViewCrearCuenta: TextView = findViewById(R.id.textViewCrearCuenta)
 
-        // Configurar el OnClickListener para "Crear Cuenta"
+
         textViewCrearCuenta.setOnClickListener {
-            // Crear un Intent para regresar a la actividad principal
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-            // Opcional: cerrar la actividad de inicio de sesión
+
             finish()
         }
     }

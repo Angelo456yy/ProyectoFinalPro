@@ -17,44 +17,47 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:text="@string/Iniciar_Sesion"
-            android:textSize="30sp"
-            android:layout_marginBottom="20dp" />
+            android:textSize="30sp" />
 
         <EditText
             android:id="@+id/editTextCorreo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Correo_Login"
             android:layout_marginTop="20dp"
+            android:hint="@string/Correo_Login"
+            android:minHeight="48dp"
             android:padding="10dp" />
 
         <EditText
             android:id="@+id/editTextContraseña"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Contraseña_Login"
             android:layout_marginTop="20dp"
-            android:padding="10dp"
-            android:inputType="textPassword" />
+            android:hint="@string/Contraseña_Login"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:padding="10dp" />
 
         <Button
             android:id="@+id/buttonIniciarSesion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Boton_Iniciar_Sesion"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:text="@string/Boton_Iniciar_Sesion" />
 
 
         <TextView
             android:id="@+id/textViewCrearCuenta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Crear_Cuenta_Login"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:clickable="true"
-            android:textColor="@android:color/holo_blue_dark"
-            android:layout_gravity="center" />
+            android:minHeight="48dp"
+            android:text="@string/Crear_Cuenta_Login"
+            android:textColor="@android:color/holo_blue_dark" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
