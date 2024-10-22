@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application night theme. -->
+    <style name="Base.Theme.Traveling" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Personaliza tu tema oscuro aquí -->
+        <item name="colorPrimary">@color/purple_dark</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Theme.Traveling" parent="Base.Theme.Traveling" />
+</resources>
