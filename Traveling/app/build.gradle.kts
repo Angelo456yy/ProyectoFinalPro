@@ -71,4 +71,6 @@ dependencies {
 
     // Optional - Integration with activities
     implementation("androidx.activity:activity-compose:1.9.2")
+    implementation ("com.google.firebase:firebase-database-ktx:20.2.4")
+
 }
