@@ -1,10 +1,7 @@
 plugins {
-
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
-
-
 }
 
 android {
@@ -13,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.umgmi.traveling"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -36,27 +33,28 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3" // Asegúrate de usar la versión adecuada
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
-    
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_19
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "19"
     }
 }
 
 dependencies {
-    implementation ("androidx.compose.material3:material3")
+    implementation("com.google.firebase:firebase-auth-ktx:20.0.5")
+    implementation("androidx.compose.material3:material3:1.1.0") // Asegúrate de que esta versión es compatible
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation ("com.github.bumptech.glide:glide:4.15.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.0")
+    implementation("com.github.bumptech.glide:glide:4.15.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -64,8 +62,8 @@ dependencies {
     implementation("com.google.android.material:material:1.4.0")
 
     // Android Studio Preview support
-    implementation ("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation ("androidx.compose.ui:ui-tooling")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
 
     // UI Tests
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
@@ -73,8 +71,4 @@ dependencies {
 
     // Optional - Integration with activities
     implementation("androidx.activity:activity-compose:1.9.2")
-
-
-    implementation("androidx.compose.material3:material3:1.1.0")
-
 }
