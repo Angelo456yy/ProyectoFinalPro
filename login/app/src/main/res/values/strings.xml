@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Agenda en línea</string>
+
+    <!--MAIN ACTIVITY-->
+    <string name="Btn_Login">Iniciar sesión</string>
+    <string name="Btn_Registro">Registro</string>
+
+</resources>
