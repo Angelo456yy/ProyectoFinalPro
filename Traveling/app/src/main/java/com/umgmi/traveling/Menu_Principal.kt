@@ -36,8 +36,8 @@ class Menu_Principal : ComponentActivity() {
 
     private fun cerrarSesion() {
         auth.signOut()
-        // Redirigir al usuario a la actividad principal (MainActivity)
-        startActivity(Intent(this, MainActivity::class.java))
+        // Redirigir al usuario a la pantalla de carga
+        startActivity(Intent(this, Pantalla_De_Carga::class.java))
         finish()
     }
 

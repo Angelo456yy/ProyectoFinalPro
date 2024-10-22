@@ -33,7 +33,7 @@ class Registro : AppCompatActivity() {
 
         // Maneja el clic para ir a la pantalla de inicio de sesión
         textViewCuentaExistente.setOnClickListener {
-            val intent = Intent(this, Menu_Principal::class.java)
+            val intent = Intent(this, MainActivity::class.java) // Cambia a la actividad Main
             startActivity(intent)
             finish()
         }
