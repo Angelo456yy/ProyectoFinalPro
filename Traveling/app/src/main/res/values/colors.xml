@@ -9,6 +9,6 @@
     <color name="purple_500">#6200EA</color>
     <color name="purple_700">#3700B3</color>
     <color name="purple_light">#FFFFFF</color>
-    <color name="purple_dark">#6200EA</color> <!-- Cambiado para mantener el morado -->
-    <color name="white">#FFFFFF</color> <!-- Asegúrate de tener blanco definido -->
+    <color name="purple_dark">#6200EA</color>
+    <color name="white">#FFFFFF</color>
 </resources>
