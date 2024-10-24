@@ -50,6 +50,8 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-database-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx") // Firestore
+    implementation("com.google.firebase:firebase-storage-ktx") // Storage
 
     // Material Components
     implementation("androidx.compose.material3:material3:1.1.0") // Asegúrate de usar una versión compatible
@@ -62,8 +64,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling:1.4.3")
     implementation("androidx.activity:activity-compose:1.9.2")
     debugImplementation("androidx.compose.ui:ui-tooling:1.4.3") // Asegúrate de usar la versión correcta
-
-
 
     // Core and UI
     implementation("androidx.core:core-ktx:1.10.0")
@@ -82,4 +82,8 @@ dependencies {
     // UI Tests
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.4.3")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.4.3")
+
+    // Mockito for unit testing
+    testImplementation("org.mockito:mockito-core:4.6.1") // Para pruebas unitarias con mocks
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
 }
