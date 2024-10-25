@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.compose_ui"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 21
@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.annotation)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
