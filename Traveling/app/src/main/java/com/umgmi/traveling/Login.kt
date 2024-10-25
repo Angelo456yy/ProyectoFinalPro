@@ -2,61 +2,110 @@ package com.umgmi.traveling
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
 
-class Login : AppCompatActivity() {
+class Login : ComponentActivity() {
 
-    private lateinit var auth: FirebaseAuth // Declaración de FirebaseAuth
-    private lateinit var editTextCorreo: EditText
-    private lateinit var editTextContraseña: EditText
-    private lateinit var buttonIniciarSesion: Button
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
-
-        // Inicializar FirebaseAuth
         auth = FirebaseAuth.getInstance()
 
-        // Configuración de vista
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-        // Inicialización de los campos
-        editTextCorreo = findViewById(R.id.editTextCorreo)
-        editTextContraseña = findViewById(R.id.editTextContraseña)
-        buttonIniciarSesion = findViewById(R.id.buttonIniciarSesion)
-
-        // Manejo de clics en el botón de iniciar sesión
-        buttonIniciarSesion.setOnClickListener {
-            iniciarSesion()
-        }
-
-        val textViewCrearCuenta: TextView = findViewById(R.id.textViewCrearCuenta)
-        textViewCrearCuenta.setOnClickListener {
-            // Navegar a la actividad de creación de cuenta
-            val intent = Intent(this, Registro::class.java) // Cambia a la actividad de registro
-            startActivity(intent)
+        setContent {
+            LoginScreen()
         }
     }
 
-    private fun iniciarSesion() {
-        val correo = editTextCorreo.text.toString().trim()
-        val contraseña = editTextContraseña.text.toString().trim()
+    @Composable
+    fun LoginScreen() {
+        val emailState = remember { mutableStateOf("") }
+        val passwordState = remember { mutableStateOf("") }
 
+        Scaffold { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(id = R.string.Iniciar_Sesion),
+                    style = MaterialTheme.typography.headlineLarge,
+                    modifier = Modifier.padding(bottom = 20.dp)
+                )
+
+                // Campo de correo
+                TextField(
+                    value = emailState.value,
+                    onValueChange = { emailState.value = it },
+                    label = { Text(stringResource(id = R.string.Correo_Login)) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                // Campo de contraseña
+                TextField(
+                    value = passwordState.value,
+                    onValueChange = { passwordState.value = it },
+                    label = { Text(stringResource(id = R.string.Contraseña_Login)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    visualTransformation = PasswordVisualTransformation() // Para ocultar la contraseña
+                )
+
+                // Botón de iniciar sesión
+                Button(
+                    onClick = { iniciarSesion(emailState.value, passwordState.value) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 20.dp)
+                ) {
+                    Text(text = stringResource(id = R.string.Boton_Iniciar_Sesion))
+                }
+
+                // Texto para crear cuenta
+                TextButton(
+                    onClick = {
+                        val intent = Intent(this@Login, Registro::class.java)
+                        startActivity(intent)
+                    },
+                    modifier = Modifier.padding(top = 20.dp)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.Crear_Cuenta_Login),
+                        color = Color.Blue
+                    )
+                }
+            }
+        }
+    }
+
+    private fun iniciarSesion(correo: String, contraseña: String) {
         // Validar campos
         if (correo.isEmpty() || contraseña.isEmpty()) {
             Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
@@ -69,7 +118,7 @@ class Login : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Inicio de sesión exitoso
                     Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, Menu_Principal::class.java) // Cambia a tu actividad principal
+                    val intent = Intent(this, Menu_Principal::class.java)
                     startActivity(intent)
                     finish() // Cierra la actividad de inicio de sesión
                 } else {
@@ -77,5 +126,12 @@ class Login : AppCompatActivity() {
                     Toast.makeText(this, "Error al iniciar sesión: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    // Función de vista previa
+    @Preview(showBackground = true)
+    @Composable
+    fun PreviewLoginScreen() {
+        LoginScreen()
     }
 }
