@@ -1,14 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="colorPrimary">#6200EA</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#BB86FC</color>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application night theme. -->
+    <style name="Base.Theme.Traveling" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Personaliza tu tema oscuro aquí -->
+        <item name="colorPrimary">@color/purple_dark</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
-    <!-- Additional purple tones -->
-    <color name="purple_200">#BB86FC</color>
-    <color name="purple_500">#6200EA</color>
-    <color name="purple_700">#3700B3</color>
-    <color name="purple_light">#FFFFFF</color>
-    <color name="purple_dark">#3700B3</color> <!-- Puedes ajustar esto si es necesario -->
-    <color name="white">#FFFFFF</color>
+    <style name="Theme.Traveling" parent="Base.Theme.Traveling" />
 </resources>

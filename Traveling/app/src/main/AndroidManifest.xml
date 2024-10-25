@@ -13,15 +13,6 @@
         android:theme="@style/Theme.Traveling"
         tools:targetApi="31">
         <activity
-            android:name=".Infor"
-            android:exported="false" />
-        <activity
-            android:name=".Info"
-            android:exported="false" />
-        <activity
-            android:name=".Usuainfo"
-            android:exported="false" />
-        <activity
             android:name=".Menu_Principal"
             android:exported="false" />
         <activity
