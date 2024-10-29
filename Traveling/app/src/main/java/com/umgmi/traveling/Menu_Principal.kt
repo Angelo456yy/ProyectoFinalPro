@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
+import com.umgmi.traveling.menu.Usuario
 
 class Menu_Principal : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
@@ -38,7 +39,7 @@ class Menu_Principal : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun MenuPrincipalScreen() {
-        // Composición del contenido de la pantalla
+
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -55,25 +56,43 @@ class Menu_Principal : ComponentActivity() {
                 modifier = Modifier
                     .padding(innerPadding)
                     .padding(16.dp)
-                    .fillMaxSize(), // Asegúrate de que llene el espacio disponible
+                    .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween // Para espaciar el contenido
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(text = "Bienvenido a la pantalla principal")
 
                 // Botones en la parte inferior
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly // Espacia los botones
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    IconButtonWithImage(painter = painterResource(id = R.drawable.distance), onClick = { /* Acción para botón 1 */ })
-                    IconButtonWithImage(painter = painterResource(id = R.drawable.home), onClick = { /* Acción para botón 2 */ })
-                    IconButtonWithImage(painter = painterResource(id = R.drawable.message), onClick = { /* Acción para botón 3 */ })
-                    IconButtonWithImage(painter = painterResource(id = R.drawable.bed), onClick = { /* Acción para botón 4 */ })
 
+                    IconButtonWithImage(
+                        painter = painterResource(id = R.drawable.usuario),
+                        onClick = { navigateToUsuario() }
+                    )
+                    IconButtonWithImage(
+                        painter = painterResource(id = R.drawable.home),
+                        onClick = { /* Acción para botón 2 */ }
+                    )
+                    IconButtonWithImage(
+                        painter = painterResource(id = R.drawable.message),
+                        onClick = { /* Acción para botón 3 */ }
+                    )
+                    IconButtonWithImage(
+                        painter = painterResource(id = R.drawable.bed),
+                        onClick = { /* Acción para botón 4 */ }
+                    )
                 }
             }
         }
+    }
+
+    // Función para navegar a la actividad Usuario
+    private fun navigateToUsuario() {
+        val intent = Intent(this, com.umgmi.traveling.menu.Usuario::class.java) // Asegúrate de que Usuario esté importado
+        startActivity(intent)
     }
 
     // Composable para un botón con imagen
@@ -89,14 +108,14 @@ class Menu_Principal : ComponentActivity() {
             Image(
                 painter = painter,
                 contentDescription = null,
-                modifier = Modifier.size(48.dp) // Tamaño de la imagen dentro del botón
+                modifier = Modifier.size(48.dp)
             )
         }
     }
 
     private fun cerrarSesion() {
         auth.signOut()
-        // Redirigir al usuario a la pantalla de carga
+
         startActivity(Intent(this, Pantalla_De_Carga::class.java))
         finish()
     }
@@ -104,7 +123,7 @@ class Menu_Principal : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     fun PreviewMenuPrincipalScreen() {
-        MaterialTheme { // Asegúrate de incluir MaterialTheme
+        MaterialTheme { 
             MenuPrincipalScreen()
         }
     }
