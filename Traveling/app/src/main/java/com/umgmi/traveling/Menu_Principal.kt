@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,7 +38,6 @@ class Menu_Principal : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun MenuPrincipalScreen() {
-
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -62,12 +60,38 @@ class Menu_Principal : ComponentActivity() {
             ) {
                 Text(text = "Bienvenido a la pantalla principal")
 
-                // Botones en la parte inferior
+                // Espacio para los nuevos botones
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Botones para ofrecer y buscar servicio
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
+                    // Botón para ofrecer servicio
+                    Button(
+                        onClick = { navigateToOfrecerServicio() },
+                        modifier = Modifier.weight(1f).padding(4.dp)
+                    ) {
+                        Text("Ofrecer Servicio")
+                    }
 
+                    // Botón para buscar servicio
+                    Button(
+                        onClick = { navigateToBuscarServicio() },
+                        modifier = Modifier.weight(1f).padding(4.dp)
+                    ) {
+                        Text("Buscar Servicio")
+                    }
+                }
+
+                // Espacio para los iconos que ya tenías
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
                     IconButtonWithImage(
                         painter = painterResource(id = R.drawable.usuario),
                         onClick = { navigateToUsuario() }
@@ -91,8 +115,21 @@ class Menu_Principal : ComponentActivity() {
 
     // Función para navegar a la actividad Usuario
     private fun navigateToUsuario() {
-        val intent = Intent(this, com.umgmi.traveling.menu.Usuario::class.java) // Asegúrate de que Usuario esté importado
+        val intent = Intent(this, com.umgmi.traveling.menu.Usuario::class.java)
         startActivity(intent)
+    }
+
+    // Función para navegar a la actividad de ofrecer servicio
+    private fun navigateToOfrecerServicio() {
+        val intent = Intent(this, com.umgmi.traveling.menu.Servicio::class.java) // Cambia la ruta según tu estructura de paquetes
+        startActivity(intent)
+    }
+
+    // Función para navegar a la actividad de buscar servicio (aquí debes implementar la clase o composable)
+    private fun navigateToBuscarServicio() {
+        // Aquí debes implementar la navegación a la actividad donde los usuarios puedan buscar servicios
+        // val intent = Intent(this, com.umgmi.traveling.menu.BuscarServicio::class.java)
+        // startActivity(intent)
     }
 
     // Composable para un botón con imagen
@@ -115,7 +152,6 @@ class Menu_Principal : ComponentActivity() {
 
     private fun cerrarSesion() {
         auth.signOut()
-
         startActivity(Intent(this, Pantalla_De_Carga::class.java))
         finish()
     }
@@ -123,7 +159,7 @@ class Menu_Principal : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     fun PreviewMenuPrincipalScreen() {
-        MaterialTheme { 
+        MaterialTheme {
             MenuPrincipalScreen()
         }
     }

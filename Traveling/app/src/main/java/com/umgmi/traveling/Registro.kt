@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -90,9 +89,9 @@ class Registro : ComponentActivity() {
                     value = contraseñaState.value,
                     onValueChange = { contraseñaState.value = it },
                     label = { Text(getString(R.string.Contraseña)) },
-                    visualTransformation = VisualTransformation.None,
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        autoCorrect = false
+                    visualTransformation = PasswordVisualTransformation(), // Mostrar como contraseña
+                    keyboardOptions = KeyboardOptions(
+                        autoCorrect = false // Correcto aquí
                     ),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -103,7 +102,7 @@ class Registro : ComponentActivity() {
                     onClick = {
                         val correo = correoState.value.text.trim()
                         val contraseña = contraseñaState.value.text.trim()
-                        if (correo.isEmpty() || contraseña.isEmpty()) {
+                        if (correo.isEmpty() || contraseña.isEmpty() || nombreState.value.text.isEmpty()) {
                             Toast.makeText(this@Registro, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
                         } else {
                             registrarUsuario(correo, contraseña, nombreState.value.text.trim())
@@ -159,7 +158,6 @@ class Registro : ComponentActivity() {
             }
     }
 
-    // Función de vista previa
     @Preview(showBackground = true)
     @Composable
     fun PreviewRegistroScreen() {

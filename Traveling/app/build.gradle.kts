@@ -62,6 +62,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")
     implementation("androidx.activity:activity-compose:1.9.2")
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.ui.android)
     debugImplementation("androidx.compose.ui:ui-tooling:1.4.3")
 
     // Core and UI
