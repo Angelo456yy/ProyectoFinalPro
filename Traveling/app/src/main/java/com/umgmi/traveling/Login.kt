@@ -128,7 +128,7 @@ class Login : ComponentActivity() {
             }
     }
 
-    // Función de vista previa
+
     @Preview(showBackground = true)
     @Composable
     fun PreviewLoginScreen() {
