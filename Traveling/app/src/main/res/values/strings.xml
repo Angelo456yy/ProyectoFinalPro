@@ -3,8 +3,8 @@
     <string name="gif_description">Pantalla de Carga</string>
     <string name="gif_roud">Carro</string>
 
-
-    <string name="Login">Login</string>
+    <string name="image_description">Descripción de la imagen del avión</string>
+    <string name="Login">Iniciar Sesion</string>
     <string name="Register">Registro</string>
 
     // Registro

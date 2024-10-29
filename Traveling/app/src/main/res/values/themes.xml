@@ -1,10 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Traveling" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Personaliza tu tema aquí -->
+    <!-- Base application theme -->
+    <style name="Base.Theme.Traveling" parent="Theme.Material3.DayNight">
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryDark">@color/purple_700</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!-- Otros atributos de estilo aquí si es necesario -->
     </style>
 
     <style name="Theme.Traveling" parent="Base.Theme.Traveling" />
