@@ -1,30 +1,19 @@
 package com.umgmi.traveling
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.widget.ImageView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class Pantalla_De_Carga : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
-
-    @SuppressLint("MissingInflatedId", "LocalSuppress")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_pantalla_de_carga)
-
-        // Inicializa FirebaseAuth
-        auth = FirebaseAuth.getInstance()
 
         val imageView = findViewById<ImageView>(R.id.gifImageView)
 
@@ -33,24 +22,16 @@ class Pantalla_De_Carga : AppCompatActivity() {
             .load(R.drawable.cargas)
             .into(imageView)
 
-        // Tiempo de espera para la pantalla de carga
-        val tiempo = 7000L
-        Handler(Looper.getMainLooper()).postDelayed({
-            verificarInicioSesion() // Verifica el estado de inicio de sesión
-        }, tiempo)
+        // Tiempo de espera para la pantalla de carga usando corutinas
+        lifecycleScope.launch {
+            delay(7000L)
+            irAlaActividadPrincipal() // Cambia a la actividad principal
+        }
     }
 
-    // Función para verificar el estado de inicio de sesión
-    private fun verificarInicioSesion() {
-        // Comprueba si el usuario está autenticado
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            // Usuario está autenticado, ir a la actividad principal
-            startActivity(Intent(this, MainActivity::class.java))
-        } else {
-            // Usuario no está autenticado, ir a la actividad de registro
-            startActivity(Intent(this, Registro::class.java))
-        }
+    // Función para ir a la actividad principal
+    private fun irAlaActividadPrincipal() {
+        startActivity(Intent(this, MainActivity::class.java))
         finish() // Cierra la pantalla de carga
     }
 }
