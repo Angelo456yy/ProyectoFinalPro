@@ -1,7 +1,6 @@
 package com.umgmi.traveling
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -21,45 +20,18 @@ import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 
 class Registro : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
-    private lateinit var storage: StorageReference
-    private lateinit var imageUri: Uri
-
-    private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Inicializa FirebaseAuth, FirebaseDatabase y FirebaseStorage
+        // Inicializa FirebaseAuth y FirebaseDatabase
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
-        storage = FirebaseStorage.getInstance().reference
-
-        // Inicializa el lanzador para seleccionar imágenes
-        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val data = result.data
-                if (data != null && data.data != null) {
-                    imageUri = data.data!!
-                }
-            }
-        }
 
         setContent {
             RegistroScreen()
@@ -71,7 +43,6 @@ class Registro : ComponentActivity() {
         var nombreState = remember { mutableStateOf(TextFieldValue("")) }
         var correoState = remember { mutableStateOf(TextFieldValue("")) }
         var contraseñaState = remember { mutableStateOf(TextFieldValue("")) }
-        var imageSelected by remember { mutableStateOf(false) }
 
         Scaffold { paddingValues ->
             Column(
@@ -127,27 +98,10 @@ class Registro : ComponentActivity() {
 
                 Button(
                     onClick = {
-                        // Llama al lanzador de selección de imágenes
-                        imagePickerLauncher.launch(Intent().apply {
-                            type = "image/*"
-                            action = Intent.ACTION_GET_CONTENT
-                        })
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = "Seleccionar Imagen")
-                }
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Button(
-                    onClick = {
                         val correo = correoState.value.text.trim()
                         val contraseña = contraseñaState.value.text.trim()
                         if (correo.isEmpty() || contraseña.isEmpty() || nombreState.value.text.isEmpty()) {
                             Toast.makeText(this@Registro, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
-                        } else if (!::imageUri.isInitialized) {
-                            Toast.makeText(this@Registro, "Por favor selecciona una imagen", Toast.LENGTH_SHORT).show()
                         } else {
                             registrarUsuario(correo, contraseña, nombreState.value.text.trim())
                         }
@@ -176,46 +130,29 @@ class Registro : ComponentActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val userId = auth.currentUser?.uid
+                    val userData = hashMapOf(
+                        "email" to correo,
+                        "Nombre" to nombre,
+                        "contra" to contraseña
+                    )
 
                     userId?.let {
-                        subirImagen(imageUri, it, correo, nombre, contraseña)
+                        database.child("users").child(it).setValue(userData)
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Registro exitoso y datos guardados", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(this, Menu_Principal::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this, "Error al guardar datos: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
                     } ?: run {
                         Toast.makeText(this, "Error: ID de usuario no encontrado", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Toast.makeText(this, "Error al registrar: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
-            }
-    }
-
-    private fun subirImagen(uri: Uri, userId: String, correo: String, nombre: String, contraseña: String) {
-        val storageRef = storage.child("profile_images/$userId")
-
-        storageRef.putFile(uri)
-            .addOnSuccessListener {
-                storageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
-                    val userData = hashMapOf(
-                        "email" to correo,
-                        "Nombre" to nombre,
-                        "contra" to contraseña,
-                        "imageUrl" to downloadUrl.toString() // Guarda la URL de la imagen
-                    )
-
-                    // Guarda los datos del usuario en Realtime Database
-                    database.child("users").child(userId).setValue(userData)
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "Registro exitoso y datos guardados", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this, Menu_Principal::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                        .addOnFailureListener { e ->
-                            Toast.makeText(this, "Error al guardar datos: ${e.message}", Toast.LENGTH_SHORT).show()
-                        }
-                }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Error al subir la imagen: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 

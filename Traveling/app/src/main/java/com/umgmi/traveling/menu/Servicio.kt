@@ -1,9 +1,11 @@
 package com.umgmi.traveling.menu
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.umgmi.traveling.Menu_Principal
 import java.util.UUID
 
 class Servicio : ComponentActivity() {
@@ -46,8 +49,7 @@ class Servicio : ComponentActivity() {
     @Composable
     fun ServiciosScreen() {
         var servicioNombre by remember { mutableStateOf(TextFieldValue("")) }
-        var servicioTipo by remember { mutableStateOf("Alojamiento") }
-        var expanded by remember { mutableStateOf(false) }
+        var servicioTipo by remember { mutableStateOf("") } // Ahora almacenamos el tipo como String
         var isFree by remember { mutableStateOf(true) }
         var amount by remember { mutableStateOf(TextFieldValue("")) }
         var lugar by remember { mutableStateOf(TextFieldValue("")) } // Campo para el lugar
@@ -59,7 +61,7 @@ class Servicio : ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            Text("Ofrecer un Servicio", fontSize = 24.sp) // Aumentar el tamaño del texto
+            Text("Ofrecer un Servicio", fontSize = 34.sp)
 
             // Campo para el nombre del servicio
             OutlinedTextField(
@@ -77,24 +79,35 @@ class Servicio : ComponentActivity() {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Selector para el tipo de servicio
-            Box {
-                TextButton(onClick = { expanded = true }) {
-                    Text(servicioTipo)
-                }
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    listOf("Alojamiento", "Comida", "Tour").forEach { tipo ->
-                        DropdownMenuItem(onClick = {
-                            servicioTipo = tipo
-                            expanded = false
-                        }) {
-                            Text(tipo)
-                        }
-                    }
-                }
+            // Selección de tipo de servicio con RadioButtons
+            Text("Tipo de Servicio:", modifier = Modifier.padding(top = 10.dp))
+            Row(modifier = Modifier.padding(top = 10.dp)) {
+                RadioButton(
+                    selected = servicioTipo == "Alojamiento",
+                    onClick = { servicioTipo = "Alojamiento" }
+                )
+                Text("Alojamiento")
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                RadioButton(
+                    selected = servicioTipo == "Comida",
+                    onClick = { servicioTipo = "Comida" }
+                )
+                Text("Comida")
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                RadioButton(
+                    selected = servicioTipo == "Tour",
+                    onClick = { servicioTipo = "Tour" }
+                )
+                Text("Tour")
+            }
+
+            // Mostrar el tipo de servicio seleccionado
+            if (servicioTipo.isNotEmpty()) {
+                Text("Tipo de Servicio Seleccionado: $servicioTipo", modifier = Modifier.padding(top = 8.dp))
             }
 
             // Selección de tipo de pago
@@ -107,7 +120,7 @@ class Servicio : ComponentActivity() {
                     selected = isFree,
                     onClick = {
                         isFree = true
-                        amount = TextFieldValue("")
+                        amount = TextFieldValue("") // Resetear monto si es gratis
                     }
                 )
                 Text("Gratis")
@@ -136,32 +149,32 @@ class Servicio : ComponentActivity() {
                 Text("Seleccionar Imagen")
             }
 
-            // Mostrar imagen seleccionada
+            // Mostrar imagen seleccionada con un espacio adecuado
+            Spacer(modifier = Modifier.height(16.dp))
             selectedImageUri?.let { uri ->
+                val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
                 Image(
-                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri).asImageBitmap(),
+                    bitmap = bitmap.asImageBitmap(),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(100.dp)
+                        .size(200.dp) // Espacio para la imagen
                         .clip(RoundedCornerShape(8.dp))
                 )
+            } ?: run {
+                Text("No se ha seleccionado ninguna imagen", modifier = Modifier.padding(top = 16.dp))
             }
 
             // Botón para guardar el servicio
             Button(
                 onClick = {
-                    guardarServicio(servicioNombre.text, servicioTipo, selectedImageUri, if (isFree) "Gratis" else amount.text, lugar.text)
+                    val userEmail = auth.currentUser?.email // Obtener el correo del usuario
+                    guardarServicio(servicioNombre.text, servicioTipo, selectedImageUri, if (isFree) "Gratis" else amount.text, lugar.text, userEmail)
                 },
                 modifier = Modifier.padding(top = 16.dp)
             ) {
                 Text("Guardar Servicio")
             }
         }
-    }
-
-    private fun DropdownMenuItem(onClick: () -> Unit, interactionSource: @Composable () -> Unit) {
-
-
     }
 
     private fun selectImage() {
@@ -171,7 +184,6 @@ class Servicio : ComponentActivity() {
         startActivityForResult(intent, pickImageRequest)
     }
 
-    // Manejar el resultado de la selección de la imagen
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == pickImageRequest && resultCode == RESULT_OK && data != null) {
@@ -179,8 +191,8 @@ class Servicio : ComponentActivity() {
         }
     }
 
-    private fun guardarServicio(nombre: String, tipo: String, imageUri: Uri?, payment: String, lugar: String) {
-        if (imageUri != null) {
+    private fun guardarServicio(nombre: String, tipo: String, imageUri: Uri?, payment: String, lugar: String, userEmail: String?) {
+        if (imageUri != null && userEmail != null) {
             val storageRef = storage.reference.child("servicios/${UUID.randomUUID()}")
             val uploadTask = storageRef.putFile(imageUri)
 
@@ -192,18 +204,29 @@ class Servicio : ComponentActivity() {
                         "tipo" to tipo,
                         "imagenUrl" to downloadUrl.toString(),
                         "pago" to payment,
-                        "lugar" to lugar // Agregar el lugar a los datos
+                        "lugar" to lugar,
+                        "usuario" to userEmail
                     )
 
                     firestore.collection("servicios")
                         .add(servicioData)
                         .addOnSuccessListener {
-                            // Aquí puedes manejar la navegación al menú principal
-                            // Por ejemplo, usando un Intent para abrir la actividad del menú principal
+                            // Mostrar mensaje de confirmación
+                            Toast.makeText(this, "Servicio guardado exitosamente", Toast.LENGTH_SHORT).show()
+
+                            // Navegar al menú principal
+                            startActivity(Intent(this, Menu_Principal::class.java)) // Cambia MenuPrincipal a la actividad que deseas
+                            finish()
                         }
-                        .addOnFailureListener { /* Manejo de errores */ }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "Error al guardar el servicio", Toast.LENGTH_SHORT).show()
+                        }
                 }
-            }.addOnFailureListener { /* Manejo de errores en la subida */ }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Error en la subida de la imagen", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(this, "Seleccione una imagen y asegúrese de estar registrado", Toast.LENGTH_SHORT).show()
         }
     }
 
