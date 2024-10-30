@@ -53,11 +53,13 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx")
 
 
+
     // Material Components
     implementation("androidx.compose.material3:material3:1.1.0")
     implementation("com.google.android.material:material:1.6.0")
 
     // Compose
+    implementation("io.coil-kt:coil-compose:2.0.0")
     implementation("androidx.compose.ui:ui:1.4.3")
     implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")
     implementation("androidx.activity:activity-compose:1.9.2")

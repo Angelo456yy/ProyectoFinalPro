@@ -113,7 +113,7 @@ class Menu_Principal : ComponentActivity() {
         }
     }
 
-    // Función para navegar a la actividad Usuario
+
     private fun navigateToUsuario() {
         val intent = Intent(this, com.umgmi.traveling.menu.Usuario::class.java)
         startActivity(intent)
