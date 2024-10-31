@@ -87,6 +87,6 @@ dependencies {
     testImplementation("org.mockito:mockito-core:4.6.1")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
 
-    // GIF
-
+    implementation("com.github.skydoves:landscapist-glide:1.5.0")
+    implementation("io.coil-kt:coil:2.2.2")
 }

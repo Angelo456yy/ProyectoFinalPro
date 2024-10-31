@@ -174,14 +174,14 @@ class Servicio : ComponentActivity() {
                     firestore.collection("servicios")
                         .add(servicioData)
                         .addOnSuccessListener {
-                            // Servicio guardado con éxito
+
                         }
                         .addOnFailureListener {
-                            // Manejo de errores
+
                         }
                 }
             }.addOnFailureListener {
-                // Manejo de errores en la subida
+
             }
         }
     }

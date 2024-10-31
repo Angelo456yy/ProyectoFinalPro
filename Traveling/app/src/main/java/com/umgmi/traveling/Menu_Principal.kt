@@ -83,6 +83,13 @@ class Menu_Principal : ComponentActivity() {
                     ) {
                         Text("Buscar Servicio")
                     }
+
+                    Button(
+                        onClick = { navigateToBuscarServicio() },
+                        modifier = Modifier.weight(1f).padding(4.dp)
+                    ) {
+                        Text("Confirmaciones")
+                    }
                 }
 
                 // Espacio para los iconos que ya tenías
@@ -128,8 +135,8 @@ class Menu_Principal : ComponentActivity() {
     // Función para navegar a la actividad de buscar servicio (aquí debes implementar la clase o composable)
     private fun navigateToBuscarServicio() {
         // Aquí debes implementar la navegación a la actividad donde los usuarios puedan buscar servicios
-        // val intent = Intent(this, com.umgmi.traveling.menu.BuscarServicio::class.java)
-        // startActivity(intent)
+        val intent = Intent(this, com.umgmi.traveling.menu.MostrarServicios::class.java)
+        startActivity(intent)
     }
 
     // Composable para un botón con imagen
