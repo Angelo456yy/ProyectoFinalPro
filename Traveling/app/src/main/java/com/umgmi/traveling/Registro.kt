@@ -16,6 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -90,9 +92,13 @@ class Registro : ComponentActivity() {
                     onValueChange = { contraseñaState.value = it },
                     label = { Text(getString(R.string.Contraseña)) },
                     visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(autoCorrect = false),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        autoCorrectEnabled = false // Usa este nuevo parámetro
+                    ),
                     modifier = Modifier.fillMaxWidth()
                 )
+
 
                 Spacer(modifier = Modifier.height(20.dp))
 
@@ -100,10 +106,12 @@ class Registro : ComponentActivity() {
                     onClick = {
                         val correo = correoState.value.text.trim()
                         val contraseña = contraseñaState.value.text.trim()
-                        if (correo.isEmpty() || contraseña.isEmpty() || nombreState.value.text.isEmpty()) {
+                        val nombre = nombreState.value.text.trim()
+
+                        if (correo.isEmpty() || contraseña.isEmpty() || nombre.isEmpty()) {
                             Toast.makeText(this@Registro, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
                         } else {
-                            registrarUsuario(correo, contraseña, nombreState.value.text.trim())
+                            registrarUsuario(correo, contraseña, nombre)
                         }
                     },
                     modifier = Modifier.fillMaxWidth()

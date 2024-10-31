@@ -65,6 +65,8 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.9.2")
     implementation(libs.androidx.activity)
     implementation(libs.androidx.ui.android)
+    implementation(libs.androidx.foundation)
+    implementation(libs.androidx.foundation)
     debugImplementation("androidx.compose.ui:ui-tooling:1.4.3")
 
     // Core and UI
