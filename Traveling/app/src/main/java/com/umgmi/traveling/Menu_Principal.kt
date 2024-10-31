@@ -84,12 +84,6 @@ class Menu_Principal : ComponentActivity() {
                         Text("Buscar Servicio")
                     }
 
-                    Button(
-                        onClick = { navigateToBuscarServicio() },
-                        modifier = Modifier.weight(1f).padding(4.dp)
-                    ) {
-                        Text("Confirmaciones")
-                    }
                 }
 
                 // Espacio para los iconos que ya tenías

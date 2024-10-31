@@ -30,6 +30,12 @@ import com.skydoves.landscapist.glide.GlideImage // Asegúrate de tener esta dep
 import com.umgmi.traveling.Menu_Principal
 import com.umgmi.traveling.R
 
+data class ReviewModel(
+    val usuario: String = "",
+    val calificacion: Int = 0,
+    val mensaje: String = ""
+)
+
 data class ServicioModel(
     val nombre: String,
     val tipo: String,
@@ -38,6 +44,7 @@ data class ServicioModel(
     val monto: String,
     val imagenUrl: String
 ) {
+
     constructor() : this("", "", "", "", "", "")
 }
 
