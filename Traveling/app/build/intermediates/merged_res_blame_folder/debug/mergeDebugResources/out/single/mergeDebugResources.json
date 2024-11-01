@@ -1,0 +1,170 @@
+[
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/layout_activity_mostrar_servicios.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/layout/activity_mostrar_servicios.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_bell_icon.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/bell_icon.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable-v24/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_distance.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/distance.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_bottom_btn3.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/bottom_btn3.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.umgmi.traveling.app-main-7:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/layout_activity_pantalla_de_carga.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/layout/activity_pantalla_de_carga.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.umgmi.traveling.app-main-7:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_avion.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/avion.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/layout_activity_menu_principal.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/layout/activity_menu_principal.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/layout_activity_confir.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/layout/activity_confir.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_cargas.gif.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/cargas.gif"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/layout_activity_servicio.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/layout/activity_servicio.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_noti.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/noti.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.umgmi.traveling.app-main-7:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.umgmi.traveling.app-main-7:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/layout_activity_reserva2.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/layout/activity_reserva2.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.umgmi.traveling.app-main-7:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/layout_activity_usuario.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/layout/activity_usuario.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.umgmi.traveling.app-main-7:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_search.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/search.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.umgmi.traveling.app-main-7:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/xml_backup_rules.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_usuario.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/usuario.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/xml_data_extraction_rules.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_hourglass.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/hourglass.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_home.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/home.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/layout_activity_resena.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/layout/activity_resena.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_message.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/message.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_star.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/star.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.umgmi.traveling.app-main-7:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/layout_activity_reserva.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/layout/activity_reserva.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/layout_activity_filtrosb.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/layout/activity_filtrosb.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.umgmi.traveling.app-main-7:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.umgmi.traveling.app-main-7:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_bed.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/bed.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/layout_activity_calificaciones.xml.flat",
+        "source": "com.umgmi.traveling.app-main-7:/layout/activity_calificaciones.xml"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_bottom_btn4.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/bottom_btn4.png"
+    },
+    {
+        "merged": "com.umgmi.traveling.app-debug-5:/drawable_call.png.flat",
+        "source": "com.umgmi.traveling.app-main-7:/drawable/call.png"
+    }
+]

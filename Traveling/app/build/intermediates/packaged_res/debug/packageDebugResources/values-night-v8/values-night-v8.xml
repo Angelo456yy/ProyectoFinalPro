@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.Theme.Traveling" parent="Theme.Material3.Light">
+        
+        <item name="colorPrimary">@color/purple_dark</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="Theme.Traveling" parent="Base.Theme.Traveling"/>
+</resources>

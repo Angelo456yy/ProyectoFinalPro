@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.umgmi.traveling.app-mergeDebugResources-3:/values-watch-v21/values-watch-v21.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\21\\.gradle\\caches\\transforms-4\\e86e5cee7667484e756f603f15a1c0d0\\transformed\\appcompat-1.6.1\\res\\values-watch-v21\\values-watch-v21.xml",
+                    "from": {
+                        "startLines": "2,6,10",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,271,499",
+                        "endLines": "5,9,13",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "266,494,724"
+                    }
+                }
+            ]
+        }
+    ]
+}

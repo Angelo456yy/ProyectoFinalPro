@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorAccent">#BB86FC</color>
+    <color name="colorPrimary">#6200EA</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="purple_200">#BB86FC</color>
+    <color name="purple_500">#6200EA</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="purple_dark">#4A148C</color>
+    <color name="purple_light">#D1C4E9</color>
+    <string name="Boton_Iniciar_Sesion">Iniciar Sesión</string>
+    <string name="Contraseña">Contraseña</string>
+    <string name="Contraseña_Login">Contraseña</string>
+    <string name="Correo">Correo</string>
+    <string name="Correo_Login">Correo Electrónico</string>
+    <string name="Crear_Cuenta">Crear Cuenta</string>
+    <string name="Crear_Cuenta_Login">¿No tienes cuenta? Crear una cuenta</string>
+    <string name="Cuentaex">Tengo una cuenta</string>
+    <string name="Iniciar_Sesion">Iniciar Sesión</string>
+    <string name="Login">Iniciar Sesion</string>
+    <string name="Nombre">Nombre</string>
+    <string name="Register">Registro</string>
+    <string name="RegistrarU">Registrar Usuario</string>
+    <string name="app_name">Traveling</string>
+    <string name="gcm_defaultSenderId" translatable="false">787797131009</string>
+    <string name="gif_description">Pantalla de Carga</string>
+    <string name="gif_roud">Carro</string>
+    <string name="google_api_key" translatable="false">AIzaSyA0RdyY_Z6MHeLoYCwFUkhSoKwxJcF0fg8</string>
+    <string name="google_app_id" translatable="false">1:787797131009:android:4b1a4ecf39adc72d09a500</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyA0RdyY_Z6MHeLoYCwFUkhSoKwxJcF0fg8</string>
+    <string name="google_storage_bucket" translatable="false">travelingc1.appspot.com</string>
+    <string name="image_description">Descripción de la imagen del avión</string>
+    <string name="project_id" translatable="false">travelingc1</string>
+    <style name="Base.Theme.Traveling" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        
+    </style>
+    <style name="Theme.Traveling" parent="Base.Theme.Traveling"/>
+</resources>
