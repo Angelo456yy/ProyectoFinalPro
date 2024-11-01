@@ -107,11 +107,16 @@ class Menu_Principal : ComponentActivity() {
                     )
                     IconButtonWithImage(
                         painter = painterResource(id = R.drawable.bed),
-                        onClick = { /* Acción para botón 4 */ }
+                        onClick = {confirmacion() }
                     )
                 }
             }
         }
+    }
+
+    private  fun  confirmacion(){
+        val intent = Intent(this, com.umgmi.traveling.menu.Confir::class.java)
+        startActivity(intent)
     }
 
 

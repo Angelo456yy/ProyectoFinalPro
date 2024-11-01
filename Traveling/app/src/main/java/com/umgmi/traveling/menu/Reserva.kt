@@ -1,3 +1,4 @@
+// Reserva.kt
 package com.umgmi.traveling.menu
 
 import android.os.Bundle
@@ -39,6 +40,7 @@ class Reserva : ComponentActivity() {
     fun MostrarReserva(servicio: ServicioModel) {
         var rating by remember { mutableStateOf(0) }
         var review by remember { mutableStateOf("") }
+        val userEmail = "usuario@example.com" // Aquí debes obtener el correo del usuario que está haciendo la reserva
 
         Column(
             modifier = Modifier
@@ -109,22 +111,16 @@ class Reserva : ComponentActivity() {
                     // Guardar en la colección de reservas
                     firestore.collection("reservas").add(
                         mapOf(
+
                             "nombre" to servicio.nombre,
                             "tipo" to servicio.tipo,
                             "lugar" to servicio.lugar,
                             "pago" to servicio.pago,
                             "monto" to servicio.monto,
                             "calificacion" to rating,
-                            "reseña" to review
-                        )
-                    )
-
-                    // Guardar en la colección de calificaciones
-                    firestore.collection("calificaciones").add(
-                        mapOf(
-                            "nombre" to servicio.nombre,
-                            "calificacion" to rating,
-                            "reseña" to review
+                            "reseña" to review,
+                            "estado" to "pendiente", // Asegúrate de incluir este campo
+                            "correo" to userEmail // Guarda el correo del usuario
                         )
                     )
                 },
