@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
@@ -17,6 +20,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.tooling.preview.Preview
+import java.text.SimpleDateFormat
+import java.util.*
 
 data class Message(
     val senderId: String = "",
@@ -92,23 +98,21 @@ class ChatDetailActivity : ComponentActivity() {
     @Composable
     fun ChatDetailScreen(userEmail: String) {
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            // Encabezado del chat
             Text(
                 text = "Chat con $userEmail",
                 style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .background(Color(0xFF6200EE)) // Color de fondo del encabezado
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                color = Color.White
             )
 
             LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
                 items(messages) { message ->
-                    Card(
-                        modifier = Modifier.fillMaxWidth().padding(8.dp),
-                        elevation = CardDefaults.cardElevation(4.dp)
-                    ) {
-                        Column(modifier = Modifier.padding(8.dp)) {
-                            Text(text = "${message.senderId}: ${message.text}")
-                            Text(text = message.timestamp.toString(), style = MaterialTheme.typography.bodySmall)
-                        }
-                    }
+                    MessageCard(message)
                 }
             }
 
@@ -132,4 +136,45 @@ class ChatDetailActivity : ComponentActivity() {
             }
         }
     }
+
+    @Composable
+    fun MessageCard(message: Message) {
+        val isCurrentUser = message.senderId == FirebaseAuth.getInstance().currentUser?.email
+        val formattedTime = formatTimestamp(message.timestamp)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
+                .padding(horizontal = if (isCurrentUser) 50.dp else 8.dp), // Espaciado diferente según el usuario
+            contentAlignment = if (isCurrentUser) Alignment.CenterEnd else Alignment.CenterStart
+        ) {
+            Card(
+                modifier = Modifier
+                    .padding(horizontal = 4.dp)
+                    .wrapContentWidth()
+                    .background(if (isCurrentUser) Color(0xFFE1F5FE) else Color(0xFFF1F8E9)), // Color de fondo basado en el usuario
+                elevation = CardDefaults.cardElevation(4.dp)
+            ) {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    Text(
+                        text = "${message.senderId}: ${message.text}",
+                        color = if (isCurrentUser) Color.Black else Color.Black
+                    )
+                    Text(
+                        text = formattedTime,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Gray
+                    )
+                }
+            }
+        }
+    }
+
+    private fun formatTimestamp(timestamp: Long): String {
+        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault()) // Formato de hora
+        return dateFormat.format(Date(timestamp))
+    }
+
 }
+
