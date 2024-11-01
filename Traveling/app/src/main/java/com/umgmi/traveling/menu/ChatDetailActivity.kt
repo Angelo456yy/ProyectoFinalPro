@@ -17,6 +17,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import java.text.SimpleDateFormat
+import java.util.*
 
 data class Message(
     val senderId: String = "",
@@ -83,17 +85,14 @@ class ChatDetailActivity : ComponentActivity() {
     fun ChatDetailScreen() {
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
             Text(
-                text = "Chat con ${intent.getStringExtra("USER_ID")}",
+                text = "Chat con ${intent.getStringExtra("USER_ID") ?: "Usuario"}",
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
             LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
                 items(messages) { message ->
-                    Text(
-                        text = "${message.senderId}: ${message.text}",
-                        modifier = Modifier.padding(8.dp)
-                    )
+                    MessageCard(message)
                 }
             }
 
@@ -114,6 +113,23 @@ class ChatDetailActivity : ComponentActivity() {
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = { sendMessage() }, modifier = Modifier.fillMaxWidth()) {
                 Text("Enviar")
+            }
+        }
+    }
+
+    @Composable
+    fun MessageCard(message: Message) {
+        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val timeString = dateFormat.format(Date(message.timestamp))
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
+        ) {
+            Column(modifier = Modifier.padding(8.dp)) {
+                Text(text = "${message.senderId}: ${message.text}")
+                Text(text = timeString, style = MaterialTheme.typography.bodySmall)
             }
         }
     }
