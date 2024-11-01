@@ -15,13 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
-import com.umgmi.traveling.menu.Usuario
 
 class Menu_Principal : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
@@ -103,19 +101,20 @@ class Menu_Principal : ComponentActivity() {
                     )
                     IconButtonWithImage(
                         painter = painterResource(id = R.drawable.message),
-                        onClick = { /* Acción para botón 3 */ }
+                        onClick = { mensage() }
                     )
                     IconButtonWithImage(
                         painter = painterResource(id = R.drawable.bed),
-                        onClick = {confirmacion() }
+                        onClick = { }
                     )
                 }
             }
         }
     }
 
-    private  fun  confirmacion(){
-        val intent = Intent(this, com.umgmi.traveling.menu.Confir::class.java)
+
+    private  fun  mensage(){
+        val intent = Intent(this, com.umgmi.traveling.menu.MostrarChat::class.java)
         startActivity(intent)
     }
 
