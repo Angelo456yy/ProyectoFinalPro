@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,29 +16,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.platform.LocalContext // Asegúrate de importar LocalContext
+import androidx.core.content.ContextCompat.startActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.skydoves.landscapist.glide.GlideImage
+import com.skydoves.landscapist.glide.GlideImage // Asegúrate de tener esta dependencia para cargar imágenes de Firebase
 import com.umgmi.traveling.Menu_Principal
 import com.umgmi.traveling.R
-
-data class ServicioModel(
-    val nombre: String,
-    val tipo: String,
-    val lugar: String,
-    val pago: String,
-    val monto: String,
-    val imagenUrl: String
-) {
-    constructor() : this("", "", "", "", "", "")
-}
 
 class MostrarServicios : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
@@ -115,14 +106,16 @@ class MostrarServicios : ComponentActivity() {
 
     @Composable
     fun ServicioCard(servicio: ServicioModel) {
-
         val context = LocalContext.current
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
                 .clickable {
-                    context.startActivity(Intent(context, Reserva::class.java)) // Lleva a la clase Reserva
+                    val intent = Intent(context, Reserva::class.java).apply {
+                        putExtra("servicio", servicio) // Pasa el objeto completo
+                    }
+                    context.startActivity(intent)
                 },
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
@@ -134,7 +127,6 @@ class MostrarServicios : ComponentActivity() {
                 Text(text = "Pago: ${servicio.pago}", fontSize = 16.sp)
                 Text(text = "Monto: ${servicio.monto}", fontSize = 16.sp)
                 Spacer(modifier = Modifier.height(8.dp))
-                // Cargar la imagen con Glide
                 GlideImage(
                     imageModel = servicio.imagenUrl,
                     contentDescription = "Imagen de ${servicio.nombre}",
@@ -147,3 +139,4 @@ class MostrarServicios : ComponentActivity() {
         }
     }
 }
+

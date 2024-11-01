@@ -69,6 +69,10 @@ dependencies {
     implementation(libs.androidx.foundation)
     implementation(libs.androidx.navigation.runtime.ktx)
     debugImplementation("androidx.compose.ui:ui-tooling:1.4.3")
+    implementation ("androidx.navigation:navigation-compose:2.5.3")
+
+
+
 
     // Core and UI
     implementation("androidx.core:core-ktx:1.10.0")
@@ -90,4 +94,5 @@ dependencies {
 
     implementation("com.github.skydoves:landscapist-glide:1.5.0")
     implementation("io.coil-kt:coil:2.2.2")
+    
 }
