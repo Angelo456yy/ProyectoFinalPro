@@ -12,42 +12,51 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import java.text.SimpleDateFormat
-import java.util.*
 
 data class Message(
     val senderId: String = "",
     val text: String = "",
-    val timestamp: Long = System.currentTimeMillis() // Timestamp para ordenar los mensajes
+    val timestamp: Long = System.currentTimeMillis()
 )
 
 class ChatDetailActivity : ComponentActivity() {
-
+    private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private lateinit var chatId: String
+    private var chatId = ""
     private val messages = mutableStateListOf<Message>()
     private var messageText by mutableStateOf("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-        // Obtener el chatId del Intent
-        chatId = intent.getStringExtra("CHAT_ID") ?: "defaultChatId"
+        // Obtener el email del usuario con quien se chatea
+        val userEmail = intent.getStringExtra("USER_EMAIL") ?: ""
+        chatId = generateChatId(userEmail)
 
         loadMessages() // Cargar mensajes al iniciar
 
         setContent {
-            ChatDetailScreen()
+            ChatDetailScreen(userEmail)
         }
     }
 
-    // Cargar mensajes desde Firestore
+    private fun generateChatId(otherUserEmail: String): String {
+        val currentUserEmail = auth.currentUser?.email ?: ""
+        // Crear un ID de chat único basado en los correos de los usuarios
+        return if (currentUserEmail < otherUserEmail) {
+            "$currentUserEmail|$otherUserEmail"
+        } else {
+            "$otherUserEmail|$currentUserEmail"
+        }
+    }
+
     private fun loadMessages() {
         db.collection("chats")
             .document(chatId)
@@ -69,10 +78,9 @@ class ChatDetailActivity : ComponentActivity() {
             }
     }
 
-    // Enviar un nuevo mensaje
     private fun sendMessage() {
         if (messageText.isNotBlank()) {
-            val message = Message(senderId = "currentUserId", text = messageText) // Cambia "currentUserId" por el ID real del usuario
+            val message = Message(senderId = auth.currentUser?.email ?: "", text = messageText)
             db.collection("chats").document(chatId)
                 .collection("messages").add(message)
                 .addOnSuccessListener {
@@ -82,17 +90,25 @@ class ChatDetailActivity : ComponentActivity() {
     }
 
     @Composable
-    fun ChatDetailScreen() {
+    fun ChatDetailScreen(userEmail: String) {
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
             Text(
-                text = "Chat con ${intent.getStringExtra("USER_ID") ?: "Usuario"}",
+                text = "Chat con $userEmail",
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
             LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
                 items(messages) { message ->
-                    MessageCard(message)
+                    Card(
+                        modifier = Modifier.fillMaxWidth().padding(8.dp),
+                        elevation = CardDefaults.cardElevation(4.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(8.dp)) {
+                            Text(text = "${message.senderId}: ${message.text}")
+                            Text(text = message.timestamp.toString(), style = MaterialTheme.typography.bodySmall)
+                        }
+                    }
                 }
             }
 
@@ -113,23 +129,6 @@ class ChatDetailActivity : ComponentActivity() {
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = { sendMessage() }, modifier = Modifier.fillMaxWidth()) {
                 Text("Enviar")
-            }
-        }
-    }
-
-    @Composable
-    fun MessageCard(message: Message) {
-        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val timeString = dateFormat.format(Date(message.timestamp))
-
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp)
-        ) {
-            Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = "${message.senderId}: ${message.text}")
-                Text(text = timeString, style = MaterialTheme.typography.bodySmall)
             }
         }
     }

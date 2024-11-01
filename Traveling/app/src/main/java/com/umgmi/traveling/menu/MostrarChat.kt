@@ -2,47 +2,29 @@ package com.umgmi.traveling.menu
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import com.umgmi.traveling.Menu_Principal
-import com.umgmi.traveling.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-
-import java.io.Serializable
 
 data class UsuarioModel(
     val id: String = "",
     val nombre: String = "",
     val email: String = "",
-
-) : Serializable
-
+)
 
 class MostrarChat : ComponentActivity() {
     private lateinit var database: DatabaseReference
@@ -83,19 +65,7 @@ class MostrarChat : ComponentActivity() {
 
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = { Text("Usuarios Disponibles") },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            // Regresar a Menu_Principal
-                            val intent = Intent(this@MostrarChat, Menu_Principal::class.java)
-                            startActivity(intent)
-                        }) {
-                            Icon(painter = painterResource(id = R.drawable.home), contentDescription = "Regresar")
-                        }
-                    },
-                    modifier = Modifier.background(MaterialTheme.colorScheme.primary)
-                )
+                TopAppBar(title = { Text("Usuarios Disponibles") })
             }
         ) { padding ->
             if (loading.value) {
@@ -105,9 +75,7 @@ class MostrarChat : ComponentActivity() {
                 }
             } else {
                 LazyColumn(
-                    modifier = Modifier
-                        .padding(padding)
-                        .fillMaxSize()
+                    modifier = Modifier.padding(padding).fillMaxSize()
                 ) {
                     items(usuarios) { usuario ->
                         UsuarioCard(usuario)
@@ -124,20 +92,17 @@ class MostrarChat : ComponentActivity() {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
                 .clickable {
                     val intent = Intent(context, ChatDetailActivity::class.java).apply {
-                        putExtra("usuario", usuario) // Pasa el objeto completo
+                        putExtra("USER_EMAIL", usuario.email) // Pasar el correo del usuario
                     }
                     context.startActivity(intent)
                 },
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text(text = "Nombre: ${usuario.nombre}", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "Email: ${usuario.email}", fontSize = 16.sp)
-
+                Text(text = "Nombre: ${usuario.nombre}")
+                Text(text = "Email: ${usuario.email}")
             }
         }
     }
