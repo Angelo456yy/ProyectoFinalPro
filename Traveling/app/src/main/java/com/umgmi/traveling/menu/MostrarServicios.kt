@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,21 +19,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
+import androidx.compose.ui.platform.LocalContext // Asegúrate de importar LocalContext
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.skydoves.landscapist.glide.GlideImage // Asegúrate de tener esta dependencia para cargar imágenes de Firebase
+import com.skydoves.landscapist.glide.GlideImage
 import com.umgmi.traveling.Menu_Principal
 import com.umgmi.traveling.R
-
-data class ReviewModel(
-    val usuario: String = "",
-    val calificacion: Int = 0,
-    val mensaje: String = ""
-)
 
 data class ServicioModel(
     val nombre: String,
@@ -44,7 +36,6 @@ data class ServicioModel(
     val monto: String,
     val imagenUrl: String
 ) {
-
     constructor() : this("", "", "", "", "", "")
 }
 
@@ -124,11 +115,15 @@ class MostrarServicios : ComponentActivity() {
 
     @Composable
     fun ServicioCard(servicio: ServicioModel) {
+
+        val context = LocalContext.current
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
-                .clickable { /* Acción al hacer clic en la tarjeta */ },
+                .clickable {
+                    context.startActivity(Intent(context, Reserva::class.java)) // Lleva a la clase Reserva
+                },
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -151,5 +146,4 @@ class MostrarServicios : ComponentActivity() {
             }
         }
     }
-
 }

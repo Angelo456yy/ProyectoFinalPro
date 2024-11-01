@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.androidx.ui.android)
     implementation(libs.androidx.foundation)
     implementation(libs.androidx.foundation)
+    implementation(libs.androidx.navigation.runtime.ktx)
     debugImplementation("androidx.compose.ui:ui-tooling:1.4.3")
 
     // Core and UI

@@ -16,7 +16,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -107,17 +109,9 @@ class Reserva : ComponentActivity() {
                     ) {
                         items(servicios) { servicio ->
                             ServicioCard(servicio) {
-                                // Navegar a la pantalla de reserva cuando se hace clic en la tarjeta
-                                DetalleReservaScreen(servicio, selectedRating, reviewText, onRatingChange = { rating ->
-                                    selectedRating = rating
-                                }, onReviewChange = { review ->
-                                    reviewText = review
-                                }, onSubmit = { rating, review ->
-                                    // Aquí se realiza la reserva y se envían los datos a Firestore
-                                    submitReview(firestore, servicio, rating, review)
-                                })
+                                // Navegar a la pantalla de detalle de reserva
+                                // (puedes agregar la lógica para navegar a la pantalla de detalle aquí)
                             }
-                            Spacer(modifier = Modifier.height(16.dp))
                         }
                     }
                 }
@@ -162,8 +156,13 @@ class Reserva : ComponentActivity() {
         reviewText: String,
         onRatingChange: (Int) -> Unit,
         onReviewChange: (String) -> Unit,
-        onSubmit: (Int, String) -> Unit
+        onSubmit: (Int, String) -> Unit,
+        firestore: FirebaseFirestore
     ) {
+        // Estados para manejar mensajes de éxito
+        var reservationMessage by remember { mutableStateOf("") }
+        var reviewMessage by remember { mutableStateOf("") }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -209,15 +208,40 @@ class Reserva : ComponentActivity() {
                 modifier = Modifier.fillMaxWidth().height(100.dp)
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
+            // Botón para hacer la reserva
             Button(
                 onClick = {
                     onSubmit(selectedRating, reviewText)
+                    reservationMessage = "Reserva en espera" // Mensaje de reserva
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = "Hacer Reserva")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Botón para enviar la calificación
+            Button(
+                onClick = {
+                    submitReview(firestore, servicio, selectedRating, reviewText) // Asegúrate de que firestore se pasa correctamente
+                    reviewMessage = "Calificación enviada" // Mensaje de calificación
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Enviar Calificación")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Mostrar mensajes de éxito
+            if (reservationMessage.isNotEmpty()) {
+                Text(text = reservationMessage, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+            }
+            if (reviewMessage.isNotEmpty()) {
+                Text(text = reviewMessage, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
             }
         }
     }
@@ -233,27 +257,11 @@ class Reserva : ComponentActivity() {
         firestore.collection("calificacion")
             .add(reviewData)
             .addOnSuccessListener {
-                // Manejar el éxito
-                println("Reseña enviada con éxito!")
+                // Éxito al agregar la reseña
             }
-            .addOnFailureListener { e ->
-                // Manejar el error
-                println("Error al enviar la reseña: ${e.message}")
+            .addOnFailureListener {
+                // Manejar error al agregar la reseña
             }
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun PreviewReserva() {
-        val mockService = ServicioModel(
-            nombre = "Guía de Montaña",
-            tipo = "Aventura",
-            lugar = "Parque Nacional",
-            pago = "Efectivo",
-            monto = "100.00",
-            imagenUrl = "https://example.com/image.jpg" // Usa una URL de imagen válida para el preview
-        )
-        // Muestra la pantalla de detalle de reserva con un servicio de ejemplo
-        DetalleReservaScreen(servicio = mockService, selectedRating = 0, reviewText = "", onRatingChange = {}, onReviewChange = {}, onSubmit = { _, _ -> })
     }
 }
+
