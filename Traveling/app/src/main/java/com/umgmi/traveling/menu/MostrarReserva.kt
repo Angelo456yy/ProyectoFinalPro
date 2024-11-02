@@ -127,7 +127,10 @@ class MostrarReserva : ComponentActivity() {
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 // Muestra el correo del usuario que realizó la reserva
+=======
+>>>>>>> 15ea89259456cc677318d201fe43902ccb06a3c7
 =======
 >>>>>>> 15ea89259456cc677318d201fe43902ccb06a3c7
                 Text(text = "Correo del reservador: ${reserva.reservadorCorreo ?: "No disponible"}", fontSize = 16.sp)
