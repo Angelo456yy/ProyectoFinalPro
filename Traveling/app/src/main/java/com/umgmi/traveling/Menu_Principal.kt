@@ -1,5 +1,7 @@
 package com.umgmi.traveling
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -13,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -88,15 +92,19 @@ class Menu_Principal : ComponentActivity() {
 
                 //SearchBar
                 val ctx = LocalContext.current
+                var query by remember { mutableStateOf("") }
+                var active by remember { mutableStateOf(false) }
                 SearchBar(
                     query = "Search",
-                    onQueryChange = { },
+                    onQueryChange = { query = it },
                     onSearch = {
-                        Toast.makeText(ctx, "Search", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(ctx, query, Toast.LENGTH_SHORT).show()
                     },
-                    active =true,
-                    onActiveChange = { }
-                ) { }
+                    active =active,
+                    onActiveChange = { active = it  }
+                ) {
+                    val options = listOf("Alojamiento", "Comida", "Tour")
+                }
 
                 // Espacio para los iconos que ya tenías
                 Spacer(modifier = Modifier.height(16.dp))
