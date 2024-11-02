@@ -3,11 +3,11 @@ package com.umgmi.traveling.menu
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,7 +50,6 @@ class Servicio : ComponentActivity() {
         var tipoPago by remember { mutableStateOf("Gratis") }
         var monto by remember { mutableStateOf(TextFieldValue("")) }
         var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
-        var dropdownExpanded by remember { mutableStateOf(false) }
 
         val imagePickerLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.GetContent(),
@@ -156,7 +154,7 @@ class Servicio : ComponentActivity() {
 
     private fun guardarServicio(nombre: String, tipo: String, lugar: String, pago: String, monto: String, imageUri: Uri?) {
         val user = auth.currentUser
-        val userEmail = user?.email ?: "Correo no disponible" // Asegúrate de manejar el caso en el que el correo no esté disponible
+        val userEmail = user?.email ?: "Correo no disponible" // Manejo del correo
 
         if (imageUri != null) {
             val storageRef = storage.reference.child("servicios/${UUID.randomUUID()}")
@@ -172,23 +170,22 @@ class Servicio : ComponentActivity() {
                         "pago" to pago,
                         "monto" to if (pago == "Monto") monto else "0",
                         "imagenUrl" to downloadUrl.toString(),
-                        "creadorEmail" to userEmail
+                        "creadorEmail" to userEmail // Guardar el correo del creador
                     )
 
                     firestore.collection("servicios")
                         .add(servicioData)
                         .addOnSuccessListener {
-                            // Aquí puedes mostrar un mensaje de éxito
+                            Log.d("Firestore", "Servicio guardado con éxito")
                         }
                         .addOnFailureListener { e ->
-                            // Aquí puedes manejar el error
+                            Log.e("Firestore", "Error al guardar servicio: ${e.message}")
                         }
                 }
             }.addOnFailureListener { e ->
-
+                Log.e("Firestore", "Error al subir imagen: ${e.message}")
             }
         } else {
-
             val servicioData = hashMapOf(
                 "nombre" to nombre,
                 "tipo" to tipo,
@@ -201,14 +198,13 @@ class Servicio : ComponentActivity() {
             firestore.collection("servicios")
                 .add(servicioData)
                 .addOnSuccessListener {
-                    // Aquí puedes mostrar un mensaje de éxito
+                    Log.d("Firestore", "Servicio guardado con éxito")
                 }
                 .addOnFailureListener { e ->
-                    // Aquí puedes manejar el error
+                    Log.e("Firestore", "Error al guardar servicio: ${e.message}")
                 }
         }
     }
-
 
     @Preview(showBackground = true)
     @Composable

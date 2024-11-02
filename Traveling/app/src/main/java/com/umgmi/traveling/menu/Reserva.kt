@@ -21,28 +21,32 @@ import com.skydoves.landscapist.glide.GlideImage
 
 class Reserva : ComponentActivity() {
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var auth: FirebaseAuth  // Agrega FirebaseAuth aquí
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firestore = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()  // Inicializa FirebaseAuth
+        auth = FirebaseAuth.getInstance()
 
         setContent {
             val servicio = intent.getParcelableExtra<ServicioModel>("servicio")
-            val creadorCorreo = servicio?.creadorCorreo ?: "Correo no disponible"
-            val reservadorCorreo = auth.currentUser?.email ?: "Correo no disponible"  // Usa el correo del usuario autenticado
+            val creadorEmail = servicio?.creadorEmail ?: "Correo no disponible"  // El correo del creador
+            val reservadorCorreo = auth.currentUser?.email ?: "Correo no disponible"  // Correo del usuario autenticado
 
             if (servicio != null) {
-                MostrarReserva(servicio, creadorCorreo, reservadorCorreo)
+                MostrarReserva(servicio, creadorEmail, reservadorCorreo)
             } else {
-                Text("Error: Servicio no encontrado", modifier = Modifier.fillMaxSize(), color = Color.Red)
+                Text(
+                    "Error: Servicio no encontrado",
+                    modifier = Modifier.fillMaxSize(),
+                    color = Color.Red
+                )
             }
         }
     }
 
     @Composable
-    fun MostrarReserva(servicio: ServicioModel, creadorCorreo: String, reservadorCorreo: String) {
+    fun MostrarReserva(servicio: ServicioModel, creadorEmail: String, reservadorCorreo: String) {
         var rating by remember { mutableStateOf(0) }
         var review by remember { mutableStateOf("") }
 
@@ -61,7 +65,7 @@ class Reserva : ComponentActivity() {
             Text(text = "Lugar: ${servicio.lugar}", fontSize = 18.sp)
             Text(text = "Pago: ${servicio.pago}", fontSize = 18.sp)
             Text(text = "Monto: ${servicio.monto}", fontSize = 18.sp)
-            Text(text = "Creador: $creadorCorreo", fontSize = 14.sp, color = Color.Gray)
+            Text(text = "Creador: $creadorEmail", fontSize = 14.sp, color = Color.Gray)  // Muestra el correo del creador
             Text(text = "Reservador: $reservadorCorreo", fontSize = 14.sp, color = Color.Gray)
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -115,20 +119,25 @@ class Reserva : ComponentActivity() {
             Button(
                 onClick = {
                     // Guardar en la colección de reservas
-                    firestore.collection("reservas").add(
-                        mapOf(
-                            "nombre" to servicio.nombre,
-                            "tipo" to servicio.tipo,
-                            "lugar" to servicio.lugar,
-                            "pago" to servicio.pago,
-                            "monto" to servicio.monto,
-                            "calificacion" to rating,
-                            "reseña" to review,
-                            "estado" to "pendiente",
-                            "creadorCorreo" to creadorCorreo,
-                            "reservadorCorreo" to reservadorCorreo
-                        )
+                    val reservaData = mapOf(
+                        "nombre" to servicio.nombre,
+                        "tipo" to servicio.tipo,
+                        "lugar" to servicio.lugar,
+                        "pago" to servicio.pago,
+                        "monto" to servicio.monto,
+                        "calificacion" to rating,
+                        "reseña" to review,
+                        "estado" to "pendiente",
+                        "userEmail" to creadorEmail,  // Guardar como correo del creador
+                        "reservadorCorreo" to reservadorCorreo
                     )
+                    firestore.collection("reservas").add(reservaData)
+                        .addOnSuccessListener {
+                            // Aquí puedes agregar una lógica para notificar al usuario que la reserva fue exitosa
+                        }
+                        .addOnFailureListener { e ->
+                            // Aquí puedes manejar errores en la reserva
+                        }
                 },
                 modifier = Modifier
                     .fillMaxWidth()

@@ -117,7 +117,6 @@ class MostrarServicios : ComponentActivity() {
                 .clickable {
                     val intent = Intent(context, Reserva::class.java).apply {
                         putExtra("servicio", servicio.copy(reservadorCorreo = userEmail))
-
                     }
                     context.startActivity(intent)
                 },
@@ -130,7 +129,8 @@ class MostrarServicios : ComponentActivity() {
                 Text(text = "Lugar: ${servicio.lugar}", fontSize = 16.sp)
                 Text(text = "Pago: ${servicio.pago}", fontSize = 16.sp)
                 Text(text = "Monto: ${servicio.monto}", fontSize = 16.sp)
-                Text(text = "Creador: ${servicio.creadorCorreo}", fontSize = 14.sp, color = Color.Gray) // Muestra el correo del creador
+                Text(text = "Creador: ${servicio.creadorEmail}", fontSize = 14.sp, color = Color.Gray) // Muestra el correo del creador
+                Text(text = "Reservador: $userEmail", fontSize = 14.sp, color = Color.Gray) // Muestra el correo del reservador
                 Spacer(modifier = Modifier.height(8.dp))
                 GlideImage(
                     imageModel = servicio.imagenUrl,
@@ -143,7 +143,6 @@ class MostrarServicios : ComponentActivity() {
             }
         }
     }
-
 }
 
 

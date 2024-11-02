@@ -16,6 +16,7 @@ firebaseFirestoreKtx = "25.1.1"
 uiAndroid = "1.7.4"
 foundation = "1.4.1"
 navigationRuntimeKtx = "2.8.3"
+foundationLayoutAndroid = "1.7.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,6 +34,7 @@ firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-fires
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
 androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,8 +1,18 @@
 package com.umgmi.traveling.menu
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class ReservaModel(
-    val id: String = "",              // ID del documento en Firestore
-    val nombre: String = "",          // Nombre del usuario que hizo la reserva
-    val servicio: String = "",        // Tipo de servicio reservado
-    val confirmado: Boolean = false   // Estado de confirmación de la reserva
-)
+    val nombre: String = "",
+    val tipo: String = "",
+    val lugar: String = "",
+    val pago: String = "",
+    val monto: String = "",
+    val calificacion: Int = 0,
+    val reseña: String = "",
+    val estado: String = "pendiente",
+    val creadorEmail: String = "",  // Correo del creador
+    val reservadorCorreo: String = ""  // Correo del reservador
+) : Parcelable

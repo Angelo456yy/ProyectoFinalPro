@@ -105,13 +105,17 @@ class Menu_Principal : ComponentActivity() {
                     )
                     IconButtonWithImage(
                         painter = painterResource(id = R.drawable.bed),
-                        onClick = { }
+                        onClick = { confirmaciones() }
                     )
                 }
             }
         }
     }
 
+    private  fun  confirmaciones(){
+        val intent = Intent(this, com.umgmi.traveling.menu.MostrarReserva::class.java)
+        startActivity(intent)
+    }
 
     private  fun  mensage(){
         val intent = Intent(this, com.umgmi.traveling.menu.MostrarChat::class.java)

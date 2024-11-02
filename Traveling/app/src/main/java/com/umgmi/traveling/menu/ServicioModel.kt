@@ -1,9 +1,9 @@
 package com.umgmi.traveling.menu
+
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.io.Serializable
-@Parcelize
 
+@Parcelize
 data class ServicioModel(
     val nombre: String = "",
     val tipo: String = "",
@@ -11,10 +11,9 @@ data class ServicioModel(
     val pago: String = "",
     val monto: String = "",
     val imagenUrl: String = "",
-    val creadorCorreo: String = "",  // Correo del creador
+    val creadorEmail: String? = "",  // Correo del creador (opcional)
     var reservadorCorreo: String = "" // Correo de quien reserva (inicialmente vacío)
-
-
 ) : Parcelable {
-    constructor() : this("", "", "", "", "", "","","")
+    // Constructor secundario
+    constructor() : this("", "", "", "", "", "", "", "")
 }
