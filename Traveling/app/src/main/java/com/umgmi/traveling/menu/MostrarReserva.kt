@@ -126,13 +126,9 @@ class MostrarReserva : ComponentActivity() {
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
                 // Muestra el correo del usuario que realizó la reserva
-=======
->>>>>>> 15ea89259456cc677318d201fe43902ccb06a3c7
-=======
->>>>>>> 15ea89259456cc677318d201fe43902ccb06a3c7
+
                 Text(text = "Correo del reservador: ${reserva.reservadorCorreo ?: "No disponible"}", fontSize = 16.sp)
                 Text(text = "Estado: ${reserva.estado ?: "No especificado"}", fontSize = 16.sp)
                 Text(text = "Lugar: ${reserva.lugar ?: "No especificado"}", fontSize = 16.sp)
