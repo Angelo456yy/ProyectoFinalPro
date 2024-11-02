@@ -30,7 +30,6 @@ import com.skydoves.landscapist.glide.GlideImage
 import com.umgmi.traveling.Menu_Principal
 import com.umgmi.traveling.R
 
-
 class MostrarServicios : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
@@ -54,7 +53,6 @@ fun MostrarServiciosScreen(firestore: FirebaseFirestore) {
     val loading = remember { mutableStateOf(true) }
     var query by remember { mutableStateOf("") }
 
-    // Cargar los servicios de Firestore solo una vez
     LaunchedEffect(Unit) {
         firestore.collection("servicios")
             .get()
@@ -88,15 +86,15 @@ fun MostrarServiciosScreen(firestore: FirebaseFirestore) {
                 },
                 modifier = Modifier.background(MaterialTheme.colorScheme.primary)
             )
-        }
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize()
-        ){
+        },
+        content = { padding ->
+            Column(
+                modifier = Modifier
+                    .padding(padding)
+                    .fillMaxSize()
+            ) {
                 var active by remember { mutableStateOf(false) }
-                // SearchBar composable
+
                 SearchBar(
                     query = query,
                     onQueryChange = { newQuery ->
@@ -109,7 +107,7 @@ fun MostrarServiciosScreen(firestore: FirebaseFirestore) {
                                         servicio.lugar.contains(query, ignoreCase = true) ||
                                         servicio.pago.contains(query, ignoreCase = true) ||
                                         (query.toIntOrNull()?.let { rangeValue ->
-                                            servicio.monto in rangeValue - 50..rangeValue + 50 // Ejemplo de tolerancia de rango
+                                            servicio.monto in rangeValue - 50..rangeValue + 50
                                         } ?: false)
                             }
                         )
@@ -118,7 +116,8 @@ fun MostrarServiciosScreen(firestore: FirebaseFirestore) {
                         Toast.makeText(LocalContext.current, "Buscando: $query", Toast.LENGTH_SHORT).show()
                     },
                     active = active,
-                    onActiveChange = { active = it }
+                    onActiveChange = { active = it },
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -139,6 +138,7 @@ fun MostrarServiciosScreen(firestore: FirebaseFirestore) {
                 }
             }
         }
+    )
 }
 
 @Composable
@@ -182,4 +182,8 @@ fun MostrarServiciosScreenPreview() {
     val firestore = Firebase.firestore
     MostrarServiciosScreen(firestore)
 }
+
+
+
+
 
