@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Traveling"
         tools:targetApi="31">
         <activity
+            android:name=".menu.Confir"
+            android:exported="false" />
+        <activity
             android:name=".menu.MostrarReserva"
             android:exported="false" />
         <activity

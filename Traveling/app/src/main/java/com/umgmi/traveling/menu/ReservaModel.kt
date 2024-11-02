@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ReservaModel(
+    val id: String = "",
     val nombre: String = "",
     val tipo: String = "",
     val lugar: String = "",
