@@ -38,6 +38,25 @@ class Menu_Principal : ComponentActivity() {
             MenuPrincipalScreen()
         }
     }
+    @Composable
+    fun RecomendacionCard(titulo: String, descripcion: String) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            shape = RoundedCornerShape(16.dp),
+            elevation = CardDefaults.cardElevation(8.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(text = titulo, style = MaterialTheme.typography.titleLarge)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = descripcion, style = MaterialTheme.typography.bodyMedium)
+            }
+        }
+    }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -89,9 +108,32 @@ class Menu_Principal : ComponentActivity() {
                     }
 
                 }
-                
+                // Espacio para las recomendaciones
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = "Guía de recomendaciones para el buen viaje!")
 
-                // Espacio para los iconos que ya tenías
+                // Contenedor de recomendaciones
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    RecomendacionCard(
+                        titulo = "Planificación",
+                        descripcion = "Planifica tu viaje con tiempo incluyendo tu hospedaje, boletos, transporte y un presupuesto general."
+                    )
+                    RecomendacionCard(
+                        titulo = "Documentación",
+                        descripcion = "Lleva contigo siempre una identificación vigente."
+                    )
+                    RecomendacionCard(
+                        titulo = "Salud",
+                        descripcion = "Lleva contigo siempre un seguro de salud vigente, " +
+                                "asi como tu botiquin de primeros auxilios, si tomas algún medicamento preinscrito no olvides de empacarlo!"
+                    )
+                    RecomendacionCard(
+                        titulo = "Seguridad",
+                        descripcion = "Nunca compartas información personal como identificaciones o cuentas bancarias a desconocidos. "
+                    )
+                }
+
+                // Espacio para los iconos
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Row(
