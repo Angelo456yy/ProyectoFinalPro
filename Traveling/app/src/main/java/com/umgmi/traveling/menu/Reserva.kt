@@ -1,4 +1,3 @@
-// Reserva.kt
 package com.umgmi.traveling.menu
 
 import android.os.Bundle
@@ -16,20 +15,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.skydoves.landscapist.glide.GlideImage
 
 class Reserva : ComponentActivity() {
     private lateinit var firestore: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth  // Agrega FirebaseAuth aquí
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firestore = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()  // Inicializa FirebaseAuth
 
         setContent {
-            val servicio = intent.getSerializableExtra("servicio") as? ServicioModel
+            val servicio = intent.getParcelableExtra<ServicioModel>("servicio")
+            val creadorCorreo = servicio?.creadorCorreo ?: "Correo no disponible"
+            val reservadorCorreo = auth.currentUser?.email ?: "Correo no disponible"  // Usa el correo del usuario autenticado
+
             if (servicio != null) {
-                MostrarReserva(servicio)
+                MostrarReserva(servicio, creadorCorreo, reservadorCorreo)
             } else {
                 Text("Error: Servicio no encontrado", modifier = Modifier.fillMaxSize(), color = Color.Red)
             }
@@ -37,10 +42,9 @@ class Reserva : ComponentActivity() {
     }
 
     @Composable
-    fun MostrarReserva(servicio: ServicioModel) {
+    fun MostrarReserva(servicio: ServicioModel, creadorCorreo: String, reservadorCorreo: String) {
         var rating by remember { mutableStateOf(0) }
         var review by remember { mutableStateOf("") }
-        val userEmail = "usuario@example.com" // Aquí debes obtener el correo del usuario que está haciendo la reserva
 
         Column(
             modifier = Modifier
@@ -57,6 +61,8 @@ class Reserva : ComponentActivity() {
             Text(text = "Lugar: ${servicio.lugar}", fontSize = 18.sp)
             Text(text = "Pago: ${servicio.pago}", fontSize = 18.sp)
             Text(text = "Monto: ${servicio.monto}", fontSize = 18.sp)
+            Text(text = "Creador: $creadorCorreo", fontSize = 14.sp, color = Color.Gray)
+            Text(text = "Reservador: $reservadorCorreo", fontSize = 14.sp, color = Color.Gray)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -111,7 +117,6 @@ class Reserva : ComponentActivity() {
                     // Guardar en la colección de reservas
                     firestore.collection("reservas").add(
                         mapOf(
-
                             "nombre" to servicio.nombre,
                             "tipo" to servicio.tipo,
                             "lugar" to servicio.lugar,
@@ -119,8 +124,9 @@ class Reserva : ComponentActivity() {
                             "monto" to servicio.monto,
                             "calificacion" to rating,
                             "reseña" to review,
-                            "estado" to "pendiente", // Asegúrate de incluir este campo
-                            "correo" to userEmail // Guarda el correo del usuario
+                            "estado" to "pendiente",
+                            "creadorCorreo" to creadorCorreo,
+                            "reservadorCorreo" to reservadorCorreo
                         )
                     )
                 },

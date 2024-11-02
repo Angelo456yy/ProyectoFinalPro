@@ -155,6 +155,9 @@ class Servicio : ComponentActivity() {
     }
 
     private fun guardarServicio(nombre: String, tipo: String, lugar: String, pago: String, monto: String, imageUri: Uri?) {
+        val user = auth.currentUser
+        val userEmail = user?.email ?: "Correo no disponible" // Asegúrate de manejar el caso en el que el correo no esté disponible
+
         if (imageUri != null) {
             val storageRef = storage.reference.child("servicios/${UUID.randomUUID()}")
             val uploadTask = storageRef.putFile(imageUri)
@@ -168,23 +171,44 @@ class Servicio : ComponentActivity() {
                         "lugar" to lugar,
                         "pago" to pago,
                         "monto" to if (pago == "Monto") monto else "0",
-                        "imagenUrl" to downloadUrl.toString()
+                        "imagenUrl" to downloadUrl.toString(),
+                        "creadorEmail" to userEmail
                     )
 
                     firestore.collection("servicios")
                         .add(servicioData)
                         .addOnSuccessListener {
-
+                            // Aquí puedes mostrar un mensaje de éxito
                         }
-                        .addOnFailureListener {
-
+                        .addOnFailureListener { e ->
+                            // Aquí puedes manejar el error
                         }
                 }
-            }.addOnFailureListener {
+            }.addOnFailureListener { e ->
 
             }
+        } else {
+
+            val servicioData = hashMapOf(
+                "nombre" to nombre,
+                "tipo" to tipo,
+                "lugar" to lugar,
+                "pago" to pago,
+                "monto" to if (pago == "Monto") monto else "0",
+                "creadorEmail" to userEmail // Agrega el correo del creador
+            )
+
+            firestore.collection("servicios")
+                .add(servicioData)
+                .addOnSuccessListener {
+                    // Aquí puedes mostrar un mensaje de éxito
+                }
+                .addOnFailureListener { e ->
+                    // Aquí puedes manejar el error
+                }
         }
     }
+
 
     @Preview(showBackground = true)
     @Composable
