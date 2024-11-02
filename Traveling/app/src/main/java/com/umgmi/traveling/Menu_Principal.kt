@@ -89,22 +89,7 @@ class Menu_Principal : ComponentActivity() {
                     }
 
                 }
-
-                //SearchBar
-                val ctx = LocalContext.current
-                var query by remember { mutableStateOf("") }
-                var active by remember { mutableStateOf(false) }
-                SearchBar(
-                    query = "Search",
-                    onQueryChange = { query = it },
-                    onSearch = {
-                        Toast.makeText(ctx, query, Toast.LENGTH_SHORT).show()
-                    },
-                    active =active,
-                    onActiveChange = { active = it  }
-                ) {
-                    val options = listOf("Alojamiento", "Comida", "Tour")
-                }
+                
 
                 // Espacio para los iconos que ya tenías
                 Spacer(modifier = Modifier.height(16.dp))
