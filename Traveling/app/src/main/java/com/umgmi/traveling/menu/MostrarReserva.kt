@@ -1,11 +1,9 @@
 package com.umgmi.traveling.menu
-
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,65 +20,47 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.umgmi.traveling.Menu_Principal
 import com.umgmi.traveling.R
-
 class MostrarReserva : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
-
         setContent {
             MostrarReservasScreen(firestore)
         }
     }
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun MostrarReservasScreen(firestore: FirebaseFirestore) {
         val reservas = remember { mutableStateListOf<ReservaModel>() }
         val loading = remember { mutableStateOf(true) }
-
         // Obtener reservas desde Firestore
         LaunchedEffect(Unit) {
-            val userEmail = auth.currentUser?.email ?: return@LaunchedEffect
-            loading.value = true // Iniciar carga
-
-            // Consultar reservas donde el creadorEmail es el usuario autenticado
+            val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: return@LaunchedEffect
             firestore.collection("reservas")
-                .whereEqualTo("creadorEmail", userEmail) // Filtrar por creadorEmail
+                .whereEqualTo("userEmail", userEmail) // Asegúrate de que este campo existe en la base de datos
                 .get()
                 .addOnSuccessListener { result ->
                     for (document in result.documents) {
-                        val reserva = document.toObject(ReservaModel::class.java)?.copy(id = document.id) // Copia con id
+                        val reserva = document.toObject(ReservaModel::class.java)
                         reserva?.let { reservas.add(it) }
                     }
-
-                    // Consultar reservas donde el reservadorCorreo es el usuario autenticado
-                    firestore.collection("reservas")
-                        .whereEqualTo("reservadorCorreo", userEmail) // Filtrar por reservadorCorreo
-                        .get()
-                        .addOnSuccessListener { result2 ->
-                            for (document in result2.documents) {
-                                val reserva = document.toObject(ReservaModel::class.java)?.copy(id = document.id) // Copia con id
-                                reserva?.let { reservas.add(it) }
-                            }
-                            loading.value = false // Cambiar el estado de carga
-                        }
-                        .addOnFailureListener { e -> loading.value = false }
+                    loading.value = false // Cambiar el estado de carga
                 }
-                .addOnFailureListener { e -> loading.value = false }
+                .addOnFailureListener { e ->
+                    // Manejar el error
+                    loading.value = false
+                }
         }
-
-
         Scaffold(
             topBar = {
                 TopAppBar(
                     title = { Text("Reservas") },
                     navigationIcon = {
                         IconButton(onClick = {
+                            // Regresar a la pantalla anterior
                             val intent = Intent(this, Menu_Principal::class.java)
                             startActivity(intent)
                         }) {
@@ -110,25 +90,16 @@ class MostrarReserva : ComponentActivity() {
             }
         }
     }
-
     @Composable
     fun ReservaCard(reserva: ReservaModel) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
-                .clickable {
-                    // Navegar a DetallesReserva y pasar la reserva
-                    val intent = Intent(this@MostrarReserva, Confir::class.java)
-                    intent.putExtra("reserva", reserva) // Asegúrate de que ReservaModel implemente Parcelable
-                    startActivity(intent)
-                },
+                .padding(8.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-
                 // Muestra el correo del usuario que realizó la reserva
-
                 Text(text = "Correo del reservador: ${reserva.reservadorCorreo ?: "No disponible"}", fontSize = 16.sp)
                 Text(text = "Estado: ${reserva.estado ?: "No especificado"}", fontSize = 16.sp)
                 Text(text = "Lugar: ${reserva.lugar ?: "No especificado"}", fontSize = 16.sp)
@@ -138,3 +109,4 @@ class MostrarReserva : ComponentActivity() {
         }
     }
 }
+
