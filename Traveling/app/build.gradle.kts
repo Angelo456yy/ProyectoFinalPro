@@ -1,7 +1,8 @@
 plugins {
+    alias(libs.plugins.google.services) // Usa esta línea si estás utilizando la versión de plugin con versiones manejadas
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.gms.google-services")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -10,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.umgmi.traveling"
-        minSdk = 23
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -51,6 +52,8 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
+    implementation ("com.google.firebase:firebase-messaging-ktx")
+
 
 
     // Material Components
@@ -58,12 +61,23 @@ dependencies {
     implementation("com.google.android.material:material:1.6.0")
 
     // Compose
+    implementation("io.coil-kt:coil-compose:2.0.0")
     implementation("androidx.compose.ui:ui:1.4.3")
     implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")
     implementation("androidx.activity:activity-compose:1.9.2")
     implementation(libs.androidx.activity)
     implementation(libs.androidx.ui.android)
+    implementation(libs.androidx.foundation)
+    implementation(libs.androidx.foundation)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.foundation.layout.android)
     debugImplementation("androidx.compose.ui:ui-tooling:1.4.3")
+    implementation ("androidx.navigation:navigation-compose:2.5.3")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0")
+
+
+
 
     // Core and UI
     implementation("androidx.core:core-ktx:1.10.0")
@@ -83,6 +97,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core:4.6.1")
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
 
-    // GIF
-
+    implementation("com.github.skydoves:landscapist-glide:1.5.0")
+    implementation("io.coil-kt:coil:2.2.2")
+    
 }
