@@ -1,8 +1,8 @@
 plugins {
+    alias(libs.plugins.google.services) // Usa esta línea si estás utilizando la versión de plugin con versiones manejadas
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.gms.google-services")
-    id ("kotlin-parcelize")
+    id("kotlin-parcelize")
 }
 
 android {

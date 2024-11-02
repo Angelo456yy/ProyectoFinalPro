@@ -25,9 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.skydoves.landscapist.glide.GlideImage // Asegúrate de tener esta dependencia para cargar imágenes de Firebase
+import com.skydoves.landscapist.glide.GlideImage
 import com.umgmi.traveling.Menu_Principal
 import com.umgmi.traveling.R
 
@@ -50,6 +48,16 @@ class MostrarServicios : ComponentActivity() {
     fun MostrarServiciosScreen(firestore: FirebaseFirestore) {
         val servicios = remember { mutableStateListOf<ServicioModel>() }
         val loading = remember { mutableStateOf(true) }
+        var filterType by remember { mutableStateOf("Todos") }
+
+        // Función para filtrar los servicios según el tipo seleccionado
+        fun filtrarServicios(): List<ServicioModel> {
+            return when (filterType) {
+                "Gratis" -> servicios.filter { it.monto.toDoubleOrNull() == 0.0 }
+                "Con Monto" -> servicios.filter { it.monto.toDoubleOrNull()?.let { monto -> monto > 0.0 } == true }
+                else -> servicios
+            }
+        }
 
         // Cargar los servicios de Firestore
         LaunchedEffect(Unit) {
@@ -60,10 +68,9 @@ class MostrarServicios : ComponentActivity() {
                         val servicio = document.toObject(ServicioModel::class.java)
                         servicios.add(servicio)
                     }
-                    loading.value = false // Cambiar el estado de carga
+                    loading.value = false
                 }
                 .addOnFailureListener { exception ->
-                    // Manejar el error
                     loading.value = false
                 }
         }
@@ -74,7 +81,6 @@ class MostrarServicios : ComponentActivity() {
                     title = { Text("Servicios Disponibles") },
                     navigationIcon = {
                         IconButton(onClick = {
-                            // Regresar a Menu_Principal
                             val intent = Intent(this, Menu_Principal::class.java)
                             startActivity(intent)
                         }) {
@@ -85,20 +91,60 @@ class MostrarServicios : ComponentActivity() {
                 )
             }
         ) { padding ->
-            if (loading.value) {
-                // Mostrar un indicador de carga mientras se obtienen los datos
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
-            } else {
-                LazyColumn(
+            Column(modifier = Modifier.padding(padding)) {
+                // Filtros de botones
+                Row(
                     modifier = Modifier
-                        .padding(padding)
-                        .fillMaxSize()
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    items(servicios) { servicio ->
-                        ServicioCard(servicio)
-                        Spacer(modifier = Modifier.height(16.dp))
+                    Button(
+                        onClick = {
+                            filterType = "Todos"
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (filterType == "Todos") MaterialTheme.colorScheme.primary else Color.Gray
+                        )
+                    ) {
+                        Text("Todos")
+                    }
+                    Button(
+                        onClick = {
+                            filterType = "Gratis"
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (filterType == "Gratis") MaterialTheme.colorScheme.primary else Color.Gray
+                        )
+                    ) {
+                        Text("Gratis")
+                    }
+                    Button(
+                        onClick = {
+                            filterType = "Con Monto"
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (filterType == "Con Monto") MaterialTheme.colorScheme.primary else Color.Gray
+                        )
+                    ) {
+                        Text("Con Monto")
+                    }
+                }
+
+                if (loading.value) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 8.dp)
+                    ) {
+                        items(filtrarServicios()) { servicio ->
+                            ServicioCard(servicio)
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
                     }
                 }
             }
@@ -129,8 +175,8 @@ class MostrarServicios : ComponentActivity() {
                 Text(text = "Lugar: ${servicio.lugar}", fontSize = 16.sp)
                 Text(text = "Pago: ${servicio.pago}", fontSize = 16.sp)
                 Text(text = "Monto: ${servicio.monto}", fontSize = 16.sp)
-                Text(text = "Creador: ${servicio.creadorEmail}", fontSize = 14.sp, color = Color.Gray) // Muestra el correo del creador
-                Text(text = "Reservador: $userEmail", fontSize = 14.sp, color = Color.Gray) // Muestra el correo del reservador
+                Text(text = "Creador: ${servicio.creadorEmail}", fontSize = 14.sp, color = Color.Gray)
+                Text(text = "Reservador: $userEmail", fontSize = 14.sp, color = Color.Gray)
                 Spacer(modifier = Modifier.height(8.dp))
                 GlideImage(
                     imageModel = servicio.imagenUrl,
@@ -144,5 +190,3 @@ class MostrarServicios : ComponentActivity() {
         }
     }
 }
-
-

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -103,12 +104,18 @@ class MostrarReserva : ComponentActivity() {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(8.dp)
+                .clickable {
+                    // Navegar a DetallesReserva y pasar la reserva
+                    val intent = Intent(this@MostrarReserva, Confir::class.java)
+                    intent.putExtra("reserva", reserva) // Asegúrate de que ReservaModel implemente Parcelable
+                    startActivity(intent)
+                },
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 // Muestra el correo del usuario que realizó la reserva
-                Text(text = "Correo del reservador: ${reserva.creadorEmail ?: "No disponible"}", fontSize = 16.sp)
+                Text(text = "Correo del reservador: ${reserva.reservadorCorreo ?: "No disponible"}", fontSize = 16.sp)
                 Text(text = "Estado: ${reserva.estado ?: "No especificado"}", fontSize = 16.sp)
                 Text(text = "Lugar: ${reserva.lugar ?: "No especificado"}", fontSize = 16.sp)
                 Text(text = "Nombre: ${reserva.nombre ?: "No especificado"}", fontSize = 16.sp)

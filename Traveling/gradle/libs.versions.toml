@@ -17,6 +17,7 @@ uiAndroid = "1.7.4"
 foundation = "1.4.1"
 navigationRuntimeKtx = "2.8.3"
 foundationLayoutAndroid = "1.7.2"
+googleServices = "4.4.2"  # Añade la versión de Google Services
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,5 +40,7 @@ androidx-foundation-layout-android = { group = "androidx.compose.foundation", na
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }  # Añade esto
+
 
 
