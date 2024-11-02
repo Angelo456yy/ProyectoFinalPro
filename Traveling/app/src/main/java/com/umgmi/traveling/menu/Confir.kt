@@ -1,7 +1,10 @@
 package com.umgmi.traveling.menu
 
 import android.os.Bundle
+<<<<<<< HEAD
 import android.util.Log
+=======
+>>>>>>> 15ea89259456cc677318d201fe43902ccb06a3c7
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,8 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.google.firebase.firestore.FirebaseFirestore
+<<<<<<< HEAD
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
+=======
+>>>>>>> 15ea89259456cc677318d201fe43902ccb06a3c7
 
 class Confir : ComponentActivity() {
     private lateinit var firestore: FirebaseFirestore
@@ -25,12 +31,15 @@ class Confir : ComponentActivity() {
         // Obtener la reserva seleccionada de los extras
         val reserva = intent.getParcelableExtra<ReservaModel>("reserva")
 
+<<<<<<< HEAD
         // Suponiendo que tienes el ID del usuario disponible, reemplaza "userId" con el ID real
         val userId = "userId" // Cambia esto por la forma en que obtienes el ID del usuario
 
         // Llama a la función para guardar el token en Firestore
         guardarTokenEnFirestore(userId)
 
+=======
+>>>>>>> 15ea89259456cc677318d201fe43902ccb06a3c7
         setContent {
             reserva?.let { ConfirScreen(it) }
         }
@@ -58,11 +67,19 @@ class Confir : ComponentActivity() {
                 Spacer(modifier = Modifier.height(32.dp))
 
                 Row {
+<<<<<<< HEAD
                     Button(onClick = { manejarAccion(reserva, true) }) {
                         Text("Aceptar")
                     }
                     Spacer(modifier = Modifier.width(16.dp))
                     Button(onClick = { manejarAccion(reserva, false) }) {
+=======
+                    Button(onClick = { manejarAccion(reserva.id, true) }) {
+                        Text("Aceptar")
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Button(onClick = { manejarAccion(reserva.id, false) }) {
+>>>>>>> 15ea89259456cc677318d201fe43902ccb06a3c7
                         Text("Rechazar")
                     }
                 }
@@ -70,6 +87,7 @@ class Confir : ComponentActivity() {
         }
     }
 
+<<<<<<< HEAD
     private fun manejarAccion(reserva: ReservaModel, aceptar: Boolean) {
         if (aceptar) {
             // Actualizamos el estado de la reserva a "Aceptada"
@@ -127,6 +145,25 @@ class Confir : ComponentActivity() {
                     }
                     .addOnFailureListener { e ->
                         Log.e("Token", "Error al guardar el token: ${e.message}")
+=======
+    private fun manejarAccion(reservaId: String?, aceptar: Boolean) {
+        if (reservaId != null) {
+            if (aceptar) {
+                // Aquí puedes agregar la lógica para aceptar la reserva (ejemplo: enviar notificación)
+                // ... (función para notificaciones push)
+                // Mensaje temporal
+                Toast.makeText(this, "Reserva aceptada", Toast.LENGTH_SHORT).show()
+            } else {
+                // Eliminar la reserva de Firestore
+                firestore.collection("reservas").document(reservaId)
+                    .delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Reserva rechazada y eliminada", Toast.LENGTH_SHORT).show()
+                        finish() // Regresa a la actividad anterior
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Error al eliminar la reserva: ${e.message}", Toast.LENGTH_SHORT).show()
+>>>>>>> 15ea89259456cc677318d201fe43902ccb06a3c7
                     }
             }
         }

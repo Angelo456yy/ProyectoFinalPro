@@ -45,22 +45,35 @@ class MostrarReserva : ComponentActivity() {
 
         // Obtener reservas desde Firestore
         LaunchedEffect(Unit) {
-            val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: return@LaunchedEffect
+            val userEmail = auth.currentUser?.email ?: return@LaunchedEffect
+            loading.value = true // Iniciar carga
+
+            // Consultar reservas donde el creadorEmail es el usuario autenticado
             firestore.collection("reservas")
-                .whereEqualTo("userEmail", userEmail) // Asegúrate de que este campo existe en la base de datos
+                .whereEqualTo("creadorEmail", userEmail) // Filtrar por creadorEmail
                 .get()
                 .addOnSuccessListener { result ->
                     for (document in result.documents) {
-                        val reserva = document.toObject(ReservaModel::class.java)
+                        val reserva = document.toObject(ReservaModel::class.java)?.copy(id = document.id) // Copia con id
                         reserva?.let { reservas.add(it) }
                     }
-                    loading.value = false // Cambiar el estado de carga
+
+                    // Consultar reservas donde el reservadorCorreo es el usuario autenticado
+                    firestore.collection("reservas")
+                        .whereEqualTo("reservadorCorreo", userEmail) // Filtrar por reservadorCorreo
+                        .get()
+                        .addOnSuccessListener { result2 ->
+                            for (document in result2.documents) {
+                                val reserva = document.toObject(ReservaModel::class.java)?.copy(id = document.id) // Copia con id
+                                reserva?.let { reservas.add(it) }
+                            }
+                            loading.value = false // Cambiar el estado de carga
+                        }
+                        .addOnFailureListener { e -> loading.value = false }
                 }
-                .addOnFailureListener { e ->
-                    // Manejar el error
-                    loading.value = false
-                }
+                .addOnFailureListener { e -> loading.value = false }
         }
+
 
         Scaffold(
             topBar = {
@@ -68,7 +81,6 @@ class MostrarReserva : ComponentActivity() {
                     title = { Text("Reservas") },
                     navigationIcon = {
                         IconButton(onClick = {
-                            // Regresar a la pantalla anterior
                             val intent = Intent(this, Menu_Principal::class.java)
                             startActivity(intent)
                         }) {
@@ -114,7 +126,10 @@ class MostrarReserva : ComponentActivity() {
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
+<<<<<<< HEAD
                 // Muestra el correo del usuario que realizó la reserva
+=======
+>>>>>>> 15ea89259456cc677318d201fe43902ccb06a3c7
                 Text(text = "Correo del reservador: ${reserva.reservadorCorreo ?: "No disponible"}", fontSize = 16.sp)
                 Text(text = "Estado: ${reserva.estado ?: "No especificado"}", fontSize = 16.sp)
                 Text(text = "Lugar: ${reserva.lugar ?: "No especificado"}", fontSize = 16.sp)
@@ -124,5 +139,3 @@ class MostrarReserva : ComponentActivity() {
         }
     }
 }
-
-

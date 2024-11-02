@@ -19,6 +19,12 @@
 
         <activity
             android:name=".menu.Confir"
+<<<<<<< HEAD
+=======
+            android:exported="false" />
+        <activity
+            android:name=".menu.MostrarReserva"
+>>>>>>> 15ea89259456cc677318d201fe43902ccb06a3c7
             android:exported="false" />
         <activity
             android:name=".menu.MostrarReserva"
