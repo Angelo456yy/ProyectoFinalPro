@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Traveling</string>
+    <string name="gif_description">Pantalla de Carga</string>
+    <string name="gif_roud">Carro</string>
+
+    <string name="image_description">Descripción de la imagen del avión</string>
+    <string name="Login">Iniciar Sesion</string>
+    <string name="Register">Registro</string>
+
+    // Registro
+
+    <string name="Crear_Cuenta">Crear Cuenta</string>
+    <string name="Nombre">Nombre</string>
+    <string name="Correo">Correo</string>
+    <string name="Contraseña">Contraseña</string>
+    <string name="RegistrarU">Registrar Usuario</string>
+    <string name="Cuentaex">Tengo una cuenta</string>
+
+    // Login
+
+    <string name="Iniciar_Sesion">Iniciar Sesión</string>
+    <string name="Correo_Login">Correo Electrónico</string>
+    <string name="Contraseña_Login">Contraseña</string>
+    <string name="Boton_Iniciar_Sesion">Iniciar Sesión</string>
+    <string name="Crear_Cuenta_Login">¿No tienes cuenta? Crear una cuenta</string>
+
+
+</resources>

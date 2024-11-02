@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "787797131009",
+    "project_id": "travelingc1",
+    "storage_bucket": "travelingc1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787797131009:android:4b1a4ecf39adc72d09a500",
+        "android_client_info": {
+          "package_name": "com.umgmi.traveling"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0RdyY_Z6MHeLoYCwFUkhSoKwxJcF0fg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
